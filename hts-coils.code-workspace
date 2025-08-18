@@ -1,0 +1,10 @@
+{
+  "folders": [
+    { "name": "hts-coils (main)", "path": "." },
+    { "name": "energy", "path": "../energy" },
+    { "name": "enhanced-simulation-hardware-abstraction-framework", "path": "../enhanced-simulation-hardware-abstraction-framework" },
+    { "name": "plasma-vortex-reactor", "path": "../plasma-vortex-reactor" },
+    { "name": "unified-lqg", "path": "../unified-lqg" },
+    { "name": "warp-bubble-optimizer", "path": "../warp-bubble-optimizer" }
+  ]
+}
