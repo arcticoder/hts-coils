@@ -1,0 +1,3 @@
+{"event":"repo_initialized","status":"completed","date":"2025-08-17"}
+{"event":"phase1-seed","status":"completed","details":{"scripts":["scripts/generate_artifacts.py"]}}
+{"event":"ci-wired","status":"completed","details":{"workflow":".github/workflows/ci.yml"}}

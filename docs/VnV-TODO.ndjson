@@ -1,0 +1,4 @@
+{"task":"B-field KPI: mean in [5,10] T, RMS ripple <1%","status":"open"}
+{"task":"Analytic axial field check vs Biot–Savart","status":"open"}
+{"task":"Thermal margin computation >=20 mK","status":"planned"}
+{"task":"Energy efficiency >99% with loss model","status":"planned"}

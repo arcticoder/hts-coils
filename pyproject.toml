@@ -1,0 +1,15 @@
+[project]
+name = "hts-coils"
+version = "0.0.1"
+description = "High-temperature superconducting coil modeling"
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "Unlicense" }
+authors = [ { name = "arcticoder" } ]
+
+[project.optional-dependencies]
+plot = ["matplotlib>=3.6"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["*"]
