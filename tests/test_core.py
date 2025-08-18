@@ -1,7 +1,7 @@
 import json
 import numpy as np
 from pathlib import Path
-from hts.coil import mu_0, hts_coil_field
+from hts.coil import mu_0, hts_coil_field, sample_helmholtz_pair_plane, sample_stack_plane
 from hts import sample_circular_coil_plane
 from hts.materials import jc_vs_temperature
 
@@ -30,3 +30,15 @@ def test_envelope_keys(tmp_path):
     if env_path.exists():
         data=json.loads(env_path.read_text())
         assert set(['B_mean_T','ripple_rms']).issubset(data)
+
+
+def test_helmholtz_symmetry():
+    X,Y,Bz=sample_helmholtz_pair_plane(I=5000.0,N=100,R=1.0,extent=0.2,n=21)
+    # symmetry about x and y axes on plane
+    assert np.allclose(Bz, np.flip(Bz, axis=0), atol=1e-6)
+    assert np.allclose(Bz, np.flip(Bz, axis=1), atol=1e-6)
+
+
+def test_stack_plane_defined():
+    X,Y,Bz=sample_stack_plane(I=5000.0,N=50,R=0.5,layers=3,axial_spacing=0.1,extent=0.2,n=21)
+    assert np.isfinite(Bz).all()

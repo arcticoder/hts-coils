@@ -22,3 +22,20 @@ Docs:
 - docs/progress_log.ndjson — progress entries with parsable snippets
 - docs/VnV-TODO.ndjson — validation tasks and snippet ideas
 - docs/UQ-TODO.ndjson — uncertainty quantification tasks and snippet ideas
+
+Additional features in this iteration:
+- Sweep with caching keyed by config hash; new metrics (field per A-turn, energy per Tesla)
+- Optimizer entry point (Bayesian via scikit-optimize if installed; fallback random search)
+- Tolerance analysis for radius and axial misalignment
+- Conductor cross-section smearing (rectangular and round presets)
+- Plots: ripple histogram and centerline manifest
+- Docs: howto_5T, artifacts schema
+
+Make targets:
+- make sweep — Helmholtz sweep with plots
+- make volumetric — 3D KPIs (with smearing)
+- make opt — optimize coil parameters (B>=5 T constraint)
+- make tol — tolerance analysis
+- make gates — run feasibility gates
+- make test — pytest
+- make env — print versions
