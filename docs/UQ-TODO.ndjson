@@ -3,3 +3,5 @@
 {"title":"UQ: Confinement efficiency robustness to ripple","type":"analysis","severity":50,"status":"planned","notes":"Monte Carlo B ripple series; evaluate \u03bc invariant and efficiency >=94% probability."}
 {"title":"UQ: Vacuum sensor noise propagation (<2 pm)","type":"analysis","severity":40,"status":"planned","notes":"Add sensor noise model and quantify impact on field estimation and control."}
 {"title":"UQ: Current density derating (J_c(T,B))","type":"theoretical","severity":65,"status":"planned","notes":"Use Ginzburg–Landau J_c and temperature dependence to obtain safe operating envelopes."}
+{"snippet.math":"J_c(T)=J_{c0}(1-T/T_c)^{3/2};\\quad \\text{ripple}_{\\text{rms}}=\\sigma(B)/|\\mu(B)|"}
+{"snippet.python":"# Monte Carlo ripple under small geometry jitter\nimport numpy as np\nfrom hts import sample_circular_coil_plane\ndef ripple(ext_jit):\n  X,Y,Bz=sample_circular_coil_plane(R=1.0+ext_jit, n=51)\n  m=float(np.nanmean(Bz)); s=float(np.nanstd(Bz)); return s/(abs(m)+1e-18)\njit=np.random.normal(0,1e-3,100)\nvals=[ripple(j) for j in jit]\nprint(float(np.mean(vals)), float(np.std(vals)))"}
