@@ -1,0 +1,2 @@
+{"milestone":"Phase 1 bootstrap","status":"completed","items":["Biot–Savart loop sampler","2D KPIs and plots","Analytic axial check"],"date":"2025-08-17"}
+{"snippet.python":"# axial check\nfrom hts.coil import mu_0, hts_coil_field; import numpy as np\nN,I,R=100,5000.0,1.0\nBnum=hts_coil_field(np.array([0,0,0]),I=I,N=N,R=R)[2];Bana=mu_0*N*I/(2*R)\nprint(abs(Bnum-Bana)/(abs(Bana)+1e-18))"}

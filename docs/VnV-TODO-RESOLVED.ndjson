@@ -1,0 +1,1 @@
+{"task":"Analytic axial check vs Biot–Savart within tolerance","status":"resolved","date":"2025-08-17","evidence":"scripts/analytic_axial_check.py rel_error ~1e-15"}

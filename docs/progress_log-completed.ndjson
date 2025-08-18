@@ -1,0 +1,2 @@
+{"event":"bootstrap","status":"completed","date":"2025-08-17","details":{"scripts":["generate_hts_artifacts.py","analytic_axial_check.py"],"docs_updated":true}}
+{"snippet.python":"# KPI quick compute\nimport json, numpy as np\nfrom hts import sample_circular_coil_plane\nX,Y,Bz=sample_circular_coil_plane(n=31)\nprint(json.dumps({'B_mean_T':float(np.mean(Bz)),'ripple_rms':float(np.std(Bz)/(abs(np.mean(Bz))+1e-18))}))"}
