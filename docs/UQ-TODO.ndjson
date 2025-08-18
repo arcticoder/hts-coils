@@ -1,3 +1,5 @@
+{"task":"Monte Carlo over Helmholtz separation and radius tolerances","status":"planned","snippet":"# sample sep ~ N(R, sigma), R ~ N(R0, sigma) and estimate ripple distribution"}
+{"task":"Sensitivity of efficiency to residual resistance","status":"planned","notes":"Vary R_circ in [0,1e-6] Ohm"}
 {"title":"UQ: Ripple uncertainty under winding/geometry tolerances","type":"analysis","severity":60,"status":"open","notes":"Propagate coil radius/position/current tolerances to RMS ripple; report PDF/mean."}
 {"title":"UQ: Thermal margin variance vs ambient and duty cycle","type":"in_silico","severity":55,"status":"open","notes":"Model temperature rise and cooldown; estimate margin distribution; ensure >20 mK with 95% confidence."}
 {"title":"UQ: Confinement efficiency robustness to ripple","type":"analysis","severity":50,"status":"planned","notes":"Monte Carlo B ripple series; evaluate \u03bc invariant and efficiency >=94% probability."}

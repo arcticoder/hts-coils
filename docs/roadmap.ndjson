@@ -11,4 +11,21 @@
 {"milestone":"Phase 1: Field Modeling & Uniformity","status":"planned","items":["Biot–Savart loop/stack models","Uniformity KPIs: mean B, RMS ripple","Centerline/plane plots","Geometry samplers (Helmholtz, stack)"]}
 {"milestone":"Phase 2: J_c(T,B) & Thermal Margin","status":"planned","items":["Ginzburg–Landau J_c model","Derating vs T and B","Thermal load budget and margin >20 mK","Safe operating envelope export"],"acceptance":["thermal_margin>=0.02 K"]}
 {"milestone":"Phase 3: Energy Efficiency & Prototype","status":"planned","items":["Ohmic/Joule loss model (ideally negligible)","Coil energy efficiency >99%","Scalable coil prototype param set","Export BOM-like JSON for geometry/current"]}
+{"milestone":"Stored energy + efficiency","status":"in-progress","notes":"U=∫B²/2μ0 dV implemented on grid; HTS efficiency approx added"}
+{"milestone":"Optimizer (grid/Bayesian)","status":"in-progress","notes":"skopt optional; random fallback; constraint B>=5T"}
+{"milestone":"Config ingestion + hash","status":"done","notes":"config loader added with hash and cache path helper"}
+{"milestone":"Caching layer","status":"done","notes":"npz caches keyed by config hash for plane grids"}
+{"milestone":"Helmholtz sep sweep","status":"done","notes":"sweep s∈[0.8R,1.2R] and pick min ripple"}
+{"milestone":"How to reach 5T","status":"in-progress","notes":"doc stub committed; auto-populate planned"}
+{"milestone":"Plots + manifest","status":"done","notes":"ripple hist + centerline; manifest with captions"}
+{"milestone":"3D KPIs","status":"in-progress","notes":"coverage fraction next"}
+{"milestone":"Tolerance analysis","status":"in-progress","notes":"radius and axial misalign; emit JSON"}
+{"milestone":"New metrics","status":"done","notes":"field per A-turn, energy per Tesla added"}
+{"milestone":"Conductor cross-section presets","status":"done","notes":"rect vs round smearing"}
+{"milestone":"Stacked multi-layer geometry","status":"done","notes":"delta-R per layer supported"}
+{"milestone":"Examples","status":"in-progress","notes":"baseline single; helmholtz near 1%"}
+{"milestone":"Makefile targets","status":"done","notes":"kpi, sweep, volumetric, gates, test, plots, opt, tol"}
+{"milestone":"CI","status":"todo","notes":"pytest workflow (no plotting)"}
+{"milestone":"Artifacts schema","status":"done","notes":"docs/artifacts_schema.md"}
+{"milestone":"Env check","status":"done","notes":"prints python/numpy/matplotlib"}
 {"artifacts":["artifacts/b_field_centerline.png","artifacts/b_field_plane.png","artifacts/field_kpis.json","artifacts/operating_envelope.json"],"ci":"Upload plots and JSON on push/PR"}

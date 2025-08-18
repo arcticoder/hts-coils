@@ -76,7 +76,7 @@ def sample_plane_from_loops(
 
 
 def sample_helmholtz_pair_plane(
-    I: float, N: int, R: float, separation: float = None, extent: float = 0.5, n: int = 101
+    I: float, N: int, R: float, separation: float | None = None, extent: float = 0.5, n: int = 101
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Sample Bz on the plane z=0 for a Helmholtz pair (two identical coaxial loops).
     By default, Helmholtz separation = R.
@@ -122,11 +122,43 @@ def sample_volume_from_loops(
     return X, Y, Z, Bmag
 
 
-def smear_loop_average(I: float, N: int, R: float, width: float = 0.0, thickness: float = 0.0, samples: int = 3):
-    """Return a list of sub-loops approximating a finite-width/thickness conductor.
-    We smear by sampling sub-radii in [R-width/2, R+width/2] and z offsets in ±thickness/2.
+def smear_loop_average(
+    I: float,
+    N: int,
+    R: float,
+    width: float = 0.0,
+    thickness: float = 0.0,
+    samples: int = 3,
+    shape: str = "rect",
+    cs_radius: float = 0.0,
+) -> List[Tuple[float, int, float, float]]:
+    """Return a list of sub-loops approximating a finite cross-section conductor.
+
+    shape:
+      - "rect": smear uniformly across radial width and axial thickness (default)
+      - "round": smear within a circular cross-section of radius cs_radius in (dr, dz)
     """
     subloops: List[Tuple[float, int, float, float]] = []
+    if shape == "round" and cs_radius > 0.0:
+        # Sample a disk in (dr, dz)
+        n = max(1, samples)
+        # Polar grid samples
+        rs = np.linspace(0.0, cs_radius, n)
+        phis = np.linspace(0.0, 2.0 * np.pi, n, endpoint=False)
+        pts = []
+        for r_ in rs:
+            for phi in phis:
+                dr = r_ * np.cos(phi)
+                dz = r_ * np.sin(phi)
+                pts.append((dr, dz))
+        if not pts:
+            return [(I, N, R, 0.0)]
+        w = 1.0 / len(pts)
+        for dr, dz in pts:
+            subloops.append((I * w, N, float(R + dr), float(dz)))
+        return subloops
+
+    # Default rectangular smear
     if width <= 0.0 and thickness <= 0.0:
         return [(I, N, R, 0.0)]
     radii = np.linspace(max(1e-6, R - width / 2.0), R + width / 2.0, max(1, samples))
@@ -136,4 +168,31 @@ def smear_loop_average(I: float, N: int, R: float, width: float = 0.0, thickness
         for z0 in zoffs:
             subloops.append((I * w, N, float(r), float(z0)))
     return subloops
+
+
+def helmholtz_loops(I: float, N: int, R: float, separation: float | None = None) -> List[Tuple[float, int, float, float]]:
+    """Construct loop list for a Helmholtz pair centered at origin."""
+    s = R if separation is None else float(separation)
+    z = s / 2.0
+    return [(I, N, R, -z), (I, N, R, +z)]
+
+
+def stack_layers_loops(
+    I: float,
+    N: int,
+    R: float,
+    layers: int,
+    axial_spacing: float,
+    delta_R: float = 0.0,
+) -> List[Tuple[float, int, float, float]]:
+    """Construct loop list for a stacked multi-layer conductor geometry.
+    Each layer i has radius R + (i - (layers-1)/2)*delta_R and z-offset per axial_spacing.
+    """
+    offsets = np.linspace(-(layers - 1) / 2.0, (layers - 1) / 2.0, layers)
+    loops: List[Tuple[float, int, float, float]] = []
+    for idx, u in enumerate(offsets):
+        z0 = float(u * axial_spacing)
+        r_i = float(R + u * delta_R)
+        loops.append((I, N, r_i, z0))
+    return loops
 
