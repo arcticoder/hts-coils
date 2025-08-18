@@ -6,3 +6,12 @@ __pycache__/
 artifacts/
 data/
 feasibility_gates_report.json
+
+# Generated data and artifacts (aligned with artifacts/data convention)
+artifacts/
+data/
+feasibility_gates_report.json
+artifacts/*.png
+artifacts/*.json
+artifacts/*.csv
+

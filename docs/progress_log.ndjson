@@ -1,3 +1,6 @@
-{"event":"repo_initialized","status":"completed","date":"2025-08-17"}
-{"event":"phase1-seed","status":"completed","details":{"scripts":["scripts/generate_artifacts.py"]}}
-{"event":"ci-wired","status":"completed","details":{"workflow":".github/workflows/ci.yml"}}
+{"event":"phase1-init","status":"started","date":"2025-08-17","details":{"scope":"HTS coil modeling scaffolding","notes":"Biot–Savart utility and grid sampling helpers stubbed."},"refs":["docs/roadmap.ndjson:Phase 1"]}
+{"event":"workspace-updated","status":"completed","date":"2025-08-17","details":{"code_workspace":"warp-field-coils.code-workspace","repos_added":["energy","negative-energy-generator","unified-lqg","warp-bubble-optimizer","enhanced-simulation-hardware-abstraction-framework","plasma-vortex-reactor"]}}
+{"event":"ci-prep","status":"completed","date":"2025-08-17","details":{"workflow": ".github/workflows/ci.yml","jobs":["tests","artifacts"],"artifacts":["artifacts/b_field_centerline.png","artifacts/b_field_ripple.png","feasibility_gates_report.json"]}}
+{"event":"phase2-cryovac","status":"planned","details":{"notes":"Thermal margin model with duty-cycle; vacuum sensor noise budget."},"links":["docs/roadmap.ndjson:Phase 2"]}
+{"event":"phase3-confinement","status":"planned","details":{"notes":"Confinement estimator using Bennett profile and \u03bc invariant; ripple penalty."},"links":["docs/roadmap.ndjson:Phase 3"]}
+{"event":"phase4-ci","status":"planned","details":{"notes":"Upload plots and JSON reports; enforce gates in CI."},"links":["docs/roadmap.ndjson:Phase 4"]}

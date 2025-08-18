@@ -1,4 +1,6 @@
-{"task":"B-field KPI: mean in [5,10] T, RMS ripple <1%","status":"open"}
-{"task":"Analytic axial field check vs Biot–Savart","status":"open"}
-{"task":"Thermal margin computation >=20 mK","status":"planned"}
-{"task":"Energy efficiency >99% with loss model","status":"planned"}
+{"category":"V&V","task":"B-field KPI: mean>=5 T and RMS ripple<=0.01% over target volume","priority":"High","status":"open","python_snippet":"# After generating B field samples (vector or magnitude array), compute RMS ripple and assert thresholds"}
+{"category":"V&V","task":"Axial field analytic check at center vs Biot–Savart","priority":"High","status":"open","python_snippet":"# Compare numeric center field to mu0 * N * I /(2R) for a circular loop stack"}
+{"category":"V&V","task":"Thermal margin logging and cooldown events","priority":"Medium","status":"open","python_snippet":"# Simulate thermal load; assert 'cooldown' events appear after overrun markers in timeline.ndjson"}
+{"category":"V&V","task":"Confinement efficiency estimator >=94% under Bennett profile","priority":"High","status":"planned","python_snippet":"# Given n(r) = n0 (1+xi^2 r^2)^-2 and B ripple, estimate efficiency and validate threshold"}
+{"category":"V&V","task":"WEC check for EM sourcing (rho>0)","priority":"Medium","status":"planned","python_snippet":"# Compute T_mu_nu^EM and ensure energy density component is positive for sourcing scenarios"}
+{"category":"V&V","task":"CI gating: fail on field ripple or B shortfall","priority":"High","status":"planned","python_snippet":"# scripts/metrics_gate.py with JSON inputs from field sampler"}

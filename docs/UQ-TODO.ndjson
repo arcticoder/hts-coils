@@ -1,3 +1,5 @@
-{"title":"UQ: Ripple vs geometry/current tolerances","status":"open"}
-{"title":"UQ: J_c(T,B) derating uncertainty","status":"planned"}
-{"title":"UQ: Thermal margin variance across duty cycles","status":"planned"}
+{"title":"UQ: Ripple uncertainty under winding/geometry tolerances","type":"analysis","severity":60,"status":"open","notes":"Propagate coil radius/position/current tolerances to RMS ripple; report PDF/mean."}
+{"title":"UQ: Thermal margin variance vs ambient and duty cycle","type":"in_silico","severity":55,"status":"open","notes":"Model temperature rise and cooldown; estimate margin distribution; ensure >20 mK with 95% confidence."}
+{"title":"UQ: Confinement efficiency robustness to ripple","type":"analysis","severity":50,"status":"planned","notes":"Monte Carlo B ripple series; evaluate \u03bc invariant and efficiency >=94% probability."}
+{"title":"UQ: Vacuum sensor noise propagation (<2 pm)","type":"analysis","severity":40,"status":"planned","notes":"Add sensor noise model and quantify impact on field estimation and control."}
+{"title":"UQ: Current density derating (J_c(T,B))","type":"theoretical","severity":65,"status":"planned","notes":"Use Ginzburg–Landau J_c and temperature dependence to obtain safe operating envelopes."}
