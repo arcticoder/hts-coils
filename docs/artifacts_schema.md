@@ -21,17 +21,22 @@ sweep_topk.json
 - rows: array of objects from sweep_results.csv subset
 
 volumetric_kpis.json
-- kpis: { B_mean_T, B_std_T, ripple_rms }
-- assumptions: input args used
+- kpis: { B_mean_T, B_std_T, ripple_rms, coverage_fraction, stored_energy_J, hts_efficiency }
+- assumptions: input args used (I,N,R,width,thickness,shape,cs_radius,layers,delta_R,extent,n,z_extent,nz,uniformity_pct,R_circ,duration)
+- config_hash: string
 
 plots_manifest.json
 - config_hash: string
 - plots: [ { path: string, caption: string } ]
 
-volumetric_kpis.json
-- kpis: { B_mean_T, B_std_T, ripple_rms, coverage_fraction, stored_energy_J, hts_efficiency }
-- assumptions: args
-- config_hash: string
+Notes
+- Stored energy U is computed via grid integration of |B|: U ≈ Σ B^2 /(2 μ0) ΔV.
+- Efficiency η = U / (U + I² R Δt) assuming small residual resistance R over time window Δt.
+
+feasibility_gates_report.json (printed by metrics_gate)
+- kpi: { B_mean_T, B_std_T, ripple_rms }
+- feasibility: outputs from materials.feasibility_summary
+- gates: includes base gates and, if available, eta>=0.99
 
 best_config.json
 - geom: string

@@ -24,3 +24,19 @@ Outputs
 - artifacts/best_config.json — best found configuration.
 - artifacts/sweep_results.csv — grid of runs with extra metrics.
 - artifacts/plots_manifest.json — image paths and captions.
+
+
+Best found configuration (auto):
+
+```json
+{
+  "geom": "helmholtz",
+  "N": 514,
+  "I": 86064.83157603774,
+  "R": 0.7099018073545288,
+  "sep": 0.6928770941721408,
+  "B_mean_T": 40.35461294523538,
+  "B_std_T": 0.01058430945785477,
+  "ripple_rms": 0.000262282517049998
+}
+```

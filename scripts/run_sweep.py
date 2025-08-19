@@ -135,6 +135,11 @@ def main():
         try:
             import matplotlib.pyplot as plt  # type: ignore
             import math
+            # Optional cross-repo plotting helpers
+            try:  # pragma: no cover - optional
+                from reactor.plotting import quick_scatter  # type: ignore
+            except Exception:  # pragma: no cover
+                quick_scatter = None  # type: ignore
             ripples = [r["ripple_rms"] for r in rows]
             plt.figure(); plt.hist(ripples, bins=30); plt.xlabel("ripple_rms"); plt.ylabel("count"); plt.title(f"Ripple histogram ({args.geom})")
             hist_path = ROOT/"artifacts"/f"hist_ripple_{args.geom}.png"

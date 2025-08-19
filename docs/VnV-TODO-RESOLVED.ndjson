@@ -1,1 +1,2 @@
 {"task":"Analytic axial check vs Biot–Savart within tolerance","status":"resolved","date":"2025-08-17","evidence":"scripts/analytic_axial_check.py rel_error ~1e-15"}
+{"task":"Gating script enforces efficiency and thermal margin","status":"resolved","date":"2025-08-18","evidence":"scripts/metrics_gate.py reads volumetric_kpis.json and adds eta>=0.99 gate"}

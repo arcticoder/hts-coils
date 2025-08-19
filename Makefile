@@ -1,7 +1,7 @@
 PY=python3
 ART=artifacts
 
-.PHONY: kpi sweep volumetric envelope gates test plots opt tol env
+.PHONY: kpi sweep volumetric envelope gates test plots opt tol env install-opt
 
 kpi:
 	$(PY) scripts/volumetric_kpis.py
@@ -32,3 +32,6 @@ test:
 
 env:
 	$(PY) scripts/env_check.py
+
+install-opt:
+	pip install -e .[opt]
