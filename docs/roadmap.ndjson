@@ -20,6 +20,7 @@
 {"milestone":"Plots + manifest","status":"done","notes":"ripple hist + centerline; manifest with captions"}
 {"milestone":"3D KPIs","status":"in-progress","notes":"coverage fraction next"}
 {"milestone":"Tolerance analysis","status":"in-progress","notes":"radius and axial misalign; emit JSON"}
+{"milestone":"Asymmetric misalignment model","status":"in-progress","notes":"Per-loop z offsets via field_from_loops for rigorous off-axis sampling"}
 {"milestone":"New metrics","status":"done","notes":"field per A-turn, energy per Tesla added"}
 {"milestone":"Conductor cross-section presets","status":"done","notes":"rect vs round smearing"}
 {"milestone":"Stacked multi-layer geometry","status":"done","notes":"delta-R per layer supported"}

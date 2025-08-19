@@ -9,4 +9,5 @@
 {"category":"V&V","task":"Thermal margin logging and cooldown events","priority":"Medium","status":"open","python_snippet":"# Simulate thermal load; assert 'cooldown' events appear after overrun markers in timeline.ndjson"}
 {"category":"V&V","task":"Current density derating sanity: J_c(T,B)>0","priority":"Medium","status":"open","python_snippet":"from hts.materials import jc_vs_tb; print(jc_vs_tb(77,5,90,1e10)>0)"}
 {"category":"V&V","task":"Operating envelope JSON present with expected keys","priority":"Medium","status":"open","python_snippet":"import json, pathlib; data=json.loads(pathlib.Path('artifacts/operating_envelope.json').read_text()); print(set(['B_mean_T','ripple_rms']).issubset(data))"}
-{"category":"V&V","task":"CI gating: fail on field ripple or B shortfall","priority":"High","status":"planned","python_snippet":"# scripts/metrics_gate.py returns nonzero on failure"}
+{"task":"CI gating: efficiency >= 0.99","priority":"High","status":"planned","python_snippet":"# Ensure volumetric_kpis.json present; metrics_gate checks eta>=0.99 when available"}
+{"task":"Asymmetric misalignment validation","priority":"Medium","status":"planned","python_snippet":"# Use sample_plane_from_loops with per-loop z offsets; compare to symmetric baseline"}

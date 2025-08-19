@@ -1,1 +1,2 @@
 {"title":"UQ: ripple under geometry jitter","status":"resolved","method":"Monte Carlo","date":"2025-08-17","note":"Baseline small-jitter sweep executed; see artifacts/sweep_results.csv"}
+{"title":"UQ: Asymmetric misalignment sampling","status":"resolved","method":"Plane sampling from per-loop offsets","date":"2025-08-18","note":"Implemented rigorous dz misalignment via field_from_loops in tolerance_analysis.py"}

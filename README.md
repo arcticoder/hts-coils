@@ -5,6 +5,9 @@ Refined Objective: Design and validate high-temperature superconducting (HTS) co
 Quickstart (CI-like local run):
 - python scripts/generate_hts_artifacts.py  # writes artifacts/ and feasibility_gates_report.json
 
+Optional extras:
+- pip install -e .[opt]  # enables Bayesian optimizer (scikit-optimize)
+
 Key equations (reference):
 - Axial center field (single circular loop, N turns): B_center = μ0 N I / (2R)
 - Ripple KPI: ripple_rms = std(B) / |mean(B)|
@@ -30,6 +33,10 @@ Additional features in this iteration:
 - Conductor cross-section smearing (rectangular and round presets)
 - Plots: ripple histogram and centerline manifest
 - Docs: howto_5T, artifacts schema
+
+Energy and efficiency:
+- Stored energy U computed by integrating |B|^2/(2 μ0) over a sampled 3D grid (scripts/volumetric_kpis.py).
+- Approximate HTS efficiency η = U / (U + I² R Δt) with user-specified residual R and duration.
 
 Make targets:
 - make sweep — Helmholtz sweep with plots

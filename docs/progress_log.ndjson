@@ -5,6 +5,9 @@
 {"date":"2025-08-18","item":"How to reach 5 T doc","details":"Added docs/howto_5T.md stub to auto-populate later","artifacts":["docs/howto_5T.md"]}
 {"date":"2025-08-18","item":"Plots + manifest","details":"Added ripple histogram and centerline plots; manifest JSON","artifacts":["artifacts/plots_manifest.json"]}
 {"date":"2025-08-18","item":"Tolerance analysis","details":"Added tolerance_analysis.py for dR and dz sweeps","artifacts":["artifacts/tolerance_uq.json"]}
+{"date":"2025-08-18","item":"Asymmetric misalignment","details":"Tolerance analysis now uses per-loop z offsets with field_from_loops for rigorous off-axis sampling","artifacts":["scripts/tolerance_analysis.py"]}
+{"date":"2025-08-18","item":"Gating script enhanced","details":"metrics_gate now enforces η>=0.99 when volumetric KPIs available and checks thermal margin via materials model","artifacts":["scripts/metrics_gate.py","artifacts/volumetric_kpis.json"]}
+{"date":"2025-08-18","item":"Cross-repo plotting (soft)","details":"Optional import of reactor.plotting.quick_scatter in run_sweep for consistent styles when available","artifacts":["scripts/run_sweep.py"]}
 {"date":"2025-08-18","item":"New metrics","details":"field per A-turn and energy per Tesla added to sweep CSV","artifacts":["artifacts/sweep_results.csv"]}
 {"event":"phase1-init","status":"started","date":"2025-08-17","details":{"scope":"HTS coil modeling scaffolding","notes":"Biot–Savart loop and grid sampling implemented."},"refs":["docs/roadmap.ndjson:Phase 1"]}
 {"event":"kpi-script","status":"completed","date":"2025-08-17","details":{"script":"scripts/generate_hts_artifacts.py","outputs":["artifacts/field_uniformity_report.json","artifacts/b_field_centerline.png","artifacts/b_field_ripple.png"]}}
