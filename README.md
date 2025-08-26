@@ -1,6 +1,6 @@
-# HTS Coils — Focused, Application-Agnostic Objectives
+# HTS Coils — Research-stage objectives and prototype artifacts
 
-Refined Objective: Design and validate high-temperature superconducting (HTS) coils achieving a magnetic field strength of 5–10 T with ripple <1%, energy efficiency >99%, and thermal margin >20 mK at operating temperatures <100 K. Target: a scalable coil prototype optimized for critical current density (J_c) and field uniformity.
+Refined Objective (research-stage): Develop and evaluate HTS coil designs with target simulation and prototype metrics such as magnetic field strength in the 5–10 T range, low ripple, and thermal margins consistent with HTS operation at cryogenic conditions. Reported numeric values are model-derived or from limited prototype tests; they require independent validation and formal V&V prior to deployment.
 
 Quickstart (CI-like local run):
 - python scripts/generate_hts_artifacts.py  # writes artifacts/ and feasibility_gates_report.json
@@ -23,8 +23,15 @@ Code entry points:
 Docs:
 - docs/roadmap.ndjson — milestones with math + python snippets
 - docs/progress_log.ndjson — progress entries with parsable snippets
-- docs/VnV-TODO.ndjson — validation tasks and snippet ideas
-- docs/UQ-TODO.ndjson — uncertainty quantification tasks and snippet ideas
+- docs/VnV-TODO.ndjson — validation tasks and snippet ideas (prioritize reproducible checks)
+- docs/UQ-TODO.ndjson — uncertainty quantification tasks and snippet ideas (include sampling + sensitivity plans)
+
+## Scope / Validation & Limitations
+
+- **Research-stage status**: This repository contains simulation code, prototype scripts, and analysis notebooks. Reported metrics (e.g., field magnitude, ripple, efficiency) are either simulation outputs or derived from small-scale experiments; they are not validated for production use.
+- **Uncertainty quantification**: For numeric claims, see `docs/UQ-TODO.ndjson` and any `artifacts/` outputs produced by `scripts/generate_hts_artifacts.py`. Where available, raw data, seed values, and environment details are included in `artifacts/` to reproduce reported results.
+- **Recommended next steps**: Run the V&V tasks in `docs/VnV-TODO.ndjson` (unit tests, analytic checks, param sweeps) and produce CI-friendly reproducible artifacts (CSV/JSON + plotting scripts) that include confidence intervals or sensitivity sweeps.
+- **Caveat**: Thermal margins, material J_c models, and efficiency calculations depend strongly on assumed material parameters, winding patterns, and boundary conditions; interpret reported numbers as illustrative, not prescriptive.
 
 Additional features in this iteration:
 - Sweep with caching keyed by config hash; new metrics (field per A-turn, energy per Tesla)
