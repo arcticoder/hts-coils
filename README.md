@@ -1,6 +1,6 @@
 # HTS Coils — Research-stage objectives and prototype artifacts
 
-Refined Objective (research-stage): Develop and evaluate HTS coil designs with target simulation and prototype metrics such as magnetic field strength in the 5–10 T range, low ripple, and thermal margins consistent with HTS operation at cryogenic conditions. Reported numeric values are model-derived or from limited prototype tests; they require independent validation and formal V&V prior to deployment.
+Refined Objective (research-stage): Explore and evaluate HTS coil design concepts with simulation and prototype metrics intended to inform further study. Example target ranges (e.g., simulated magnetic field strength in the 5–10 T range, ripple targets, and thermal margin targets) are research-stage outcomes or limited prototype results and should be validated with dedicated V&V before being used for engineering decisions or deployment.
 
 Quickstart (CI-like local run):
 - python scripts/generate_hts_artifacts.py  # writes artifacts/ and feasibility_gates_report.json
@@ -31,7 +31,9 @@ Docs:
 - **Research-stage status**: This repository contains simulation code, prototype scripts, and analysis notebooks. Reported metrics (e.g., field magnitude, ripple, efficiency) are either simulation outputs or derived from small-scale experiments; they are not validated for production use.
 - **Uncertainty quantification**: For numeric claims, see `docs/UQ-TODO.ndjson` and any `artifacts/` outputs produced by `scripts/generate_hts_artifacts.py`. Where available, raw data, seed values, and environment details are included in `artifacts/` to reproduce reported results.
 - **Recommended next steps**: Run the V&V tasks in `docs/VnV-TODO.ndjson` (unit tests, analytic checks, param sweeps) and produce CI-friendly reproducible artifacts (CSV/JSON + plotting scripts) that include confidence intervals or sensitivity sweeps.
-- **Caveat**: Thermal margins, material J_c models, and efficiency calculations depend strongly on assumed material parameters, winding patterns, and boundary conditions; interpret reported numbers as illustrative, not prescriptive.
+-- **Caveat**: Thermal margins, material J_c models, and efficiency calculations depend strongly on assumed material parameters, winding patterns, and boundary conditions; interpret reported numbers as illustrative, not prescriptive.
+
+If maintainers publish numeric claims in a public summary, attach UQ artifacts (confidence intervals, sensitivity results, and raw artifact files) under `docs/` and link to them from the README.
 
 **Additional Limitations & Reproducibility Notes:**
 - Many reported metrics are based on simulation ensembles or limited bench trials; sample sizes, sensor calibration, and environmental setup are important for reproducing results. Quantify measurement uncertainty when publishing numeric claims.
