@@ -33,6 +33,11 @@ Docs:
 - **Recommended next steps**: Run the V&V tasks in `docs/VnV-TODO.ndjson` (unit tests, analytic checks, param sweeps) and produce CI-friendly reproducible artifacts (CSV/JSON + plotting scripts) that include confidence intervals or sensitivity sweeps.
 - **Caveat**: Thermal margins, material J_c models, and efficiency calculations depend strongly on assumed material parameters, winding patterns, and boundary conditions; interpret reported numbers as illustrative, not prescriptive.
 
+**Additional Limitations & Reproducibility Notes:**
+- Many reported metrics are based on simulation ensembles or limited bench trials; sample sizes, sensor calibration, and environmental setup are important for reproducing results. Quantify measurement uncertainty when publishing numeric claims.
+- When running `scripts/generate_hts_artifacts.py`, capture the environment (Python package versions, OS, random seeds) and include the generated `artifacts/` folder in PRs used to support claims.
+- Experimental prototypes may differ from simulation outputs due to manufacturing tolerances and instrumentation configuration. Treat simulation-derived feasibility gates as design guidance that requires independent validation on hardware.
+
 Additional features in this iteration:
 - Sweep with caching keyed by config hash; new metrics (field per A-turn, energy per Tesla)
 - Optimizer entry point (Bayesian via scikit-optimize if installed; fallback random search)
