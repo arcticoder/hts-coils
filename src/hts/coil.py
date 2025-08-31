@@ -15,16 +15,20 @@ def hts_coil_field(r: np.ndarray, I: float = 5000.0, N: int = 100, R: float = 1.
     """
     r = np.asarray(r, dtype=float)
     theta = np.linspace(0.0, 2.0 * np.pi, 360, endpoint=False)
-    dl = R * np.vstack([-np.sin(theta), np.cos(theta), np.zeros_like(theta)])
-    seg_len = 2.0 * np.pi * R / len(theta)
-    dl *= seg_len
+    dtheta = 2.0 * np.pi / len(theta)
     B = np.zeros(3, dtype=float)
     for i in range(len(theta)):
-        rp = r - np.array([R * np.cos(theta[i]), R * np.sin(theta[i]), 0.0])
+        # Position on loop
+        loop_pos = np.array([R * np.cos(theta[i]), R * np.sin(theta[i]), 0.0])
+        # dl vector (tangent to loop)
+        dl = R * dtheta * np.array([-np.sin(theta[i]), np.cos(theta[i]), 0.0])
+        # Vector from loop element to field point
+        rp = r - loop_pos
         rp_mag = np.linalg.norm(rp)
         if rp_mag <= 1e-9:
             continue
-        B += (mu_0 / (4.0 * np.pi)) * (I * N) * np.cross(dl[:, i], rp) / (rp_mag ** 3)
+        # Biot-Savart law: dB = (mu_0/4π) * I * N * dl × r / |r|³
+        B += (mu_0 / (4.0 * np.pi)) * (I * N) * np.cross(dl, rp) / (rp_mag ** 3)
     return B
 
 
