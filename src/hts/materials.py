@@ -36,46 +36,73 @@ def thermal_margin_estimate(power_w: float, heat_capacity_j_per_k: float) -> flo
     return power_w / heat_capacity_j_per_k
 
 
-def space_thermal_simulation(I: float, T_base: float = 20.0, Q_rad: float = 1e-3, 
-                             conductor_length: float = 100.0, tape_width: float = 4e-3,
-                             stefan_boltzmann: float = 5.67e-8) -> Dict[str, float]:
+def enhanced_thermal_simulation(I: float, T_base: float = 20.0, Q_rad: float = 1e-3,
+                               conductor_length: float = 100.0, tape_width: float = 4e-3,
+                               cryo_efficiency: float = 0.1, P_cryo: float = 100.0,
+                               T_env: float = 300.0, emissivity: float = 0.1,
+                               stefan_boltzmann: float = 5.67e-8) -> Dict[str, float]:
     """
-    Simulate coil temperature rise under space conditions (vacuum, radiation cooling).
+    Enhanced thermal simulation for space conditions including cryocooler and MLI effects.
     
     Args:
-        I: Current (A)
-        T_base: Base temperature (K) 
-        Q_rad: Additional radiant heat load (W)
+        I: Current (A) - not used for HTS below Tc
+        T_base: Base operating temperature (K)
+        Q_rad: External radiant heat load (W)
         conductor_length: Total conductor length (m)
-        tape_width: HTS tape width (m) for radiation area
+        tape_width: HTS tape width (m)
+        cryo_efficiency: Cryocooler efficiency (COP)
+        P_cryo: Cryocooler electrical power (W)
+        T_env: Environment temperature (K) for space (300K sunlit)
+        emissivity: Tape surface emissivity
         stefan_boltzmann: Stefan-Boltzmann constant (W/m²/K⁴)
-    
+        
     Returns:
-        Dict with thermal analysis results
+        Dict with enhanced thermal analysis
     """
-    # HTS tape has negligible resistance below Tc, so only radiation heating
-    Q_total = Q_rad  # W
-    
-    # Radiation cooling area (tape surface area)
+    # HTS tape surface area for radiation
     A_rad = conductor_length * tape_width  # m²
     
-    # Steady-state: Q_in = σ * A * T⁴ (approximate for small ΔT)
-    # For small temperature rise: Q ≈ 4 * σ * A * T_base³ * ΔT
-    if A_rad > 0 and T_base > 0:
-        delta_T = Q_total / (4 * stefan_boltzmann * A_rad * T_base**3)
+    # Multi-layer insulation (MLI) heat leak - simplified model
+    Q_mli = 1e-4 * A_rad  # ~0.1 mW/cm² typical for good MLI
+    
+    # Radiation heat input from environment (space) - with thermal shielding
+    # In practice, HTS coils would be inside a cryostat with radiation shields
+    # Assume effective shield temperature ~100K instead of 300K
+    T_shield = 100.0  # K - intermediate shield temperature
+    Q_rad_env = emissivity * stefan_boltzmann * A_rad * (T_shield**4 - T_base**4)
+    
+    # Total heat load
+    Q_total = Q_rad + Q_mli + max(0, Q_rad_env)  # W
+    
+    # Cryocooler cooling capacity
+    Q_cryo_capacity = cryo_efficiency * P_cryo  # W of cooling
+    
+    # Net heat to be radiated away by tape
+    Q_net = Q_total - Q_cryo_capacity
+    
+    if Q_net > 0:
+        # Need to radiate Q_net, solve: Q_net = σ*A*ε*(T⁴ - T_env⁴) 
+        # For small ΔT: Q_net ≈ 4*σ*A*ε*T_base³*ΔT
+        delta_T = Q_net / (4 * stefan_boltzmann * A_rad * emissivity * T_base**3)
     else:
-        delta_T = float('inf')
+        # Cryocooler can handle the load
+        delta_T = 0.0
     
     T_final = T_base + delta_T
     
     return {
         'T_base': T_base,
-        'T_final': T_final, 
+        'T_final': T_final,
         'delta_T': delta_T,
         'Q_total': Q_total,
-        'Q_rad': Q_rad,
+        'Q_rad_external': Q_rad,
+        'Q_mli': Q_mli, 
+        'Q_rad_env': max(0, Q_rad_env),
+        'Q_cryo_capacity': Q_cryo_capacity,
+        'Q_net': Q_net,
         'A_rad': A_rad,
-        'thermal_margin_K': max(0, 90.0 - T_final)  # Assume Tc=90K for REBCO
+        'thermal_margin_K': max(0, 90.0 - T_final),  # Assume Tc=90K
+        'cryo_sufficient': Q_net <= 0
     }
 
 
@@ -98,11 +125,11 @@ def feasibility_summary(
     """
     jm = jc_vs_tb(T=T, B=B_char_T, Tc=Tc, Jc0=Jc0)
     
-    # Use space thermal simulation instead of simple estimate
-    thermal_result = space_thermal_simulation(
+    # Use enhanced thermal simulation instead of simple estimate
+    thermal_result = enhanced_thermal_simulation(
         I=0.0,  # Current doesn't matter for resistanceless HTS
         T_base=T,
-        Q_rad=ohmic_w,  # Use ohmic_w as radiation heat load
+        Q_rad=ohmic_w,  # Use ohmic_w as external heat load
         conductor_length=conductor_length
     )
     
