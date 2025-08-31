@@ -1,0 +1,13 @@
+{
+  "geometry": "helmholtz",
+  "N": 200,
+  "I": 40000.0,
+  "R": 0.4,
+  "separation": 0.4,
+  "layers": 3,
+  "axial_spacing": 0.2,
+  "extent": 0.15,
+  "n_grid": 61,
+  "z_extent": 0.2,
+  "nz_grid": 21
+}

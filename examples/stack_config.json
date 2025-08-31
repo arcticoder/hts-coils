@@ -1,0 +1,13 @@
+{
+  "geometry": "stack",
+  "N": 150,
+  "I": 30000.0,
+  "R": 0.3,
+  "separation": null,
+  "layers": 4,
+  "axial_spacing": 0.15,
+  "extent": 0.15,
+  "n_grid": 61,
+  "z_extent": 0.2,
+  "nz_grid": 21
+}
