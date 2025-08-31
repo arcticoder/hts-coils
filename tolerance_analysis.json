@@ -1,0 +1,89 @@
+{
+  "config": {
+    "geometry": "helmholtz",
+    "N": 200,
+    "I": 40000.0,
+    "R": 0.4,
+    "separation": 0.4,
+    "layers": 3,
+    "axial_spacing": 0.2,
+    "extent": 0.15,
+    "n_grid": 61,
+    "z_extent": 0.2,
+    "nz_grid": 21
+  },
+  "config_hash": "e0af8545",
+  "monte_carlo": {
+    "baseline": {
+      "B_mean": 6.370132108504997e-18,
+      "B_min": -0.15,
+      "B_max": 0.15,
+      "ripple_percent": 4.709478467478862e+18
+    },
+    "n_samples": 30,
+    "tolerances": {
+      "R": 0.01,
+      "I": 0.005,
+      "separation": 0.01
+    },
+    "field_mean": {
+      "mean": 6.370132108504995e-18,
+      "std": 1.5407439555097887e-33,
+      "min": 6.370132108504997e-18,
+      "max": 6.370132108504997e-18,
+      "percentile_5": 6.370132108504997e-18,
+      "percentile_95": 6.370132108504997e-18
+    },
+    "field_ripple": {
+      "mean": 4.709478467478862e+18,
+      "std": 0.0,
+      "min": 4.709478467478862e+18,
+      "max": 4.709478467478862e+18,
+      "percentile_5": 4.709478467478862e+18,
+      "percentile_95": 4.709478467478862e+18
+    }
+  },
+  "sensitivity": {
+    "baseline": {
+      "B_mean": 6.370132108504997e-18,
+      "B_min": -0.15,
+      "B_max": 0.15,
+      "ripple_percent": 4.709478467478862e+18
+    },
+    "delta_percent": 1.0,
+    "sensitivities": {
+      "N": {
+        "dB_mean_dParam": 0.0,
+        "dRipple_dParam": 0.0,
+        "normalized_B_sensitivity": 0.0,
+        "normalized_ripple_sensitivity": 0.0,
+        "current_value": 200.0,
+        "delta_used": 2.0
+      },
+      "I": {
+        "dB_mean_dParam": 0.0,
+        "dRipple_dParam": 0.0,
+        "normalized_B_sensitivity": 0.0,
+        "normalized_ripple_sensitivity": 0.0,
+        "current_value": 40000.0,
+        "delta_used": 400.0
+      },
+      "R": {
+        "dB_mean_dParam": 0.0,
+        "dRipple_dParam": 0.0,
+        "normalized_B_sensitivity": 0.0,
+        "normalized_ripple_sensitivity": 0.0,
+        "current_value": 0.4,
+        "delta_used": 0.004
+      },
+      "separation": {
+        "dB_mean_dParam": 0.0,
+        "dRipple_dParam": 0.0,
+        "normalized_B_sensitivity": 0.0,
+        "normalized_ripple_sensitivity": 0.0,
+        "current_value": 0.4,
+        "delta_used": 0.004
+      }
+    }
+  }
+}
