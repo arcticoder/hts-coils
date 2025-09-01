@@ -230,12 +230,12 @@ Contributions welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for develo
 
 ## Journal Manuscript
 
-The primary manuscript for journal submission is available as `papers/hts_coils_journal_format.tex` (IEEE Transactions on Applied Superconductivity format). Previous manuscript versions have been archived in `papers/archived/` for reference.
+The primary manuscript for journal submission is available as `papers/rebco_hts_coil_optimization_fusion_antimatter.tex` (IEEE Transactions on Applied Superconductivity format). Previous manuscript versions have been archived in `papers/archived/` for reference.
 
 ### Manuscript Compilation
 
 ```bash
-cd papers && pdflatex hts_coils_journal_format.tex
+cd papers && pdflatex rebco_hts_coil_optimization_fusion_antimatter.tex
 ```
 
 ### IEEE Journal Figure Generation
