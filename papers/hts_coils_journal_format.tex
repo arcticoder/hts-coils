@@ -3,6 +3,7 @@
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{authblk}
 \usepackage{hyperref}
 \usepackage[margin=2cm]{geometry}
 \usepackage{times} % IEEE typically uses Times font
@@ -11,13 +12,19 @@
 
 \input{author_config.tex}
 % Author populated from author_config.tex
-\author{\authorname\\\texttt{\authoremail}}
+% Use an author + affiliation + email block similar to the provided example
+\author{\authorname\thanks{Electronic address: \texttt{\authoremail}.}}
+\affil{Independent Researcher}
 % Freeze to the run date for archival reproducibility
 \date{August 31, 2025}
 
 \begin{document}
 
 \maketitle
+
+\begin{center}
+(Dated: August 31, 2025)
+\end{center}
 
 \begin{abstract}
 This paper presents a comprehensive development pathway for REBCO-based HTS coils achieving up to 2.1 T magnetic fields with minimal ripple through validated modeling and mechanical reinforcement. We demonstrate a Helmholtz configuration with optimal thermal margins, suitable for fusion tokamaks and antimatter experiments. Field calculations validated against analytical solutions achieve $<10^{-14}$ relative error. Enhanced thermal modeling confirms stable operation with practical cryogenic systems, while mechanical analysis identifies reinforcement strategies to address hoop stress limitations (175 MPa baseline reduced to 28 MPa). Comprehensive sensitivity analysis reveals critical design parameters and operational margins.
