@@ -45,3 +45,5 @@ papers/*.bbl
 papers/*.blg
 
 papers/author_config.tex
+
+.env
