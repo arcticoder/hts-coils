@@ -1,0 +1,4 @@
+# Optional FEA dependencies for open-source finite element analysis
+fenics-dolfinx>=0.6.0
+mpi4py>=3.0.0
+petsc4py>=3.18.0

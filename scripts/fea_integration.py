@@ -2,26 +2,73 @@
 """
 FEA Integration Framework for HTS Coil Stress Analysis
 
-This module provides interfaces for integrating COMSOL/ANSYS FEA results
-with the HTS coil design and optimization workflow. Replaces analytical
-stress approximations with full finite element analysis.
+This module provides interfaces for integrating open-source and commercial FEA
+software with the HTS coil design and optimization workflow. Includes native
+open-source FEA implementation using FEniCSx as well as COMSOL/ANSYS interfaces.
 """
 from __future__ import annotations
 import numpy as np
 from pathlib import Path
 import json
+import sys
 from typing import Dict, List, Optional, Union
 import warnings
 
+# Add src directory to path for open-source FEA import
+sys.path.append(str(Path(__file__).parent.parent / "src"))
+
+try:
+    from hts.open_source_fea import OpenSourceFEASolver, OpenSourceFEAResults
+    OPEN_SOURCE_FEA_AVAILABLE = True
+except ImportError:
+    OPEN_SOURCE_FEA_AVAILABLE = False
+    warnings.warn("Open-source FEA module not available")
+
 class FEAResults:
-    """Container for FEA simulation results."""
+    """Container for FEA simulation results with unified interface."""
     
     def __init__(self, mesh_points: np.ndarray, stress_tensor: np.ndarray, 
-                 displacement: np.ndarray, temperature: Optional[np.ndarray] = None):
+                 displacement: np.ndarray, temperature: Optional[np.ndarray] = None,
+                 validation_error: Optional[float] = None):
         self.mesh_points = mesh_points  # [N, 3] array of (x,y,z) coordinates
         self.stress_tensor = stress_tensor  # [N, 6] array of stress components
         self.displacement = displacement  # [N, 3] array of displacements
         self.temperature = temperature  # [N,] array of temperatures
+        self.validation_error = validation_error  # Validation error vs analytical
+        
+    @classmethod
+    def from_open_source(cls, os_results: 'OpenSourceFEAResults') -> 'FEAResults':
+        """Create FEAResults from OpenSourceFEAResults."""
+        # Convert to standard format
+        n_points = len(os_results.mesh_nodes) if os_results.mesh_nodes is not None else 100
+        
+        if os_results.mesh_nodes is not None:
+            mesh_points = os_results.mesh_nodes
+        else:
+            # Create dummy mesh for analytical results
+            theta = np.linspace(0, 2*np.pi, 50)
+            r = 0.2  # Default radius
+            mesh_points = np.column_stack([r*np.cos(theta), r*np.sin(theta), np.zeros(50)])
+        
+        # Create stress tensor array
+        if os_results.stress_tensor is not None:
+            stress_tensor = os_results.stress_tensor
+        else:
+            # Create uniform stress field from max values
+            n_points = len(mesh_points)
+            stress_tensor = np.zeros((n_points, 6))
+            stress_tensor[:, 0] = os_results.max_radial_stress  # Radial
+            stress_tensor[:, 1] = os_results.max_hoop_stress    # Hoop
+        
+        displacement = np.zeros_like(mesh_points)
+        if os_results.displacement_field is not None:
+            # Reshape displacement field to match mesh
+            disp_reshaped = os_results.displacement_field.reshape(-1, mesh_points.shape[1])
+            if len(disp_reshaped) == len(mesh_points):
+                displacement = disp_reshaped
+        
+        return cls(mesh_points, stress_tensor, displacement, 
+                  validation_error=os_results.validation_error)
         
     @property
     def hoop_stress(self) -> np.ndarray:
@@ -44,6 +91,15 @@ class FEAResults:
     def max_radial_stress(self) -> float:
         """Maximum radial stress in the structure."""
         return np.max(np.abs(self.radial_stress))
+    
+    def to_dict(self) -> Dict:
+        """Convert to dictionary for JSON serialization."""
+        return {
+            'max_hoop_stress_MPa': self.max_hoop_stress / 1e6,
+            'max_radial_stress_MPa': self.max_radial_stress / 1e6,
+            'validation_error_percent': self.validation_error * 100 if self.validation_error else None,
+            'mesh_points': len(self.mesh_points)
+        }
 
 class FEAInterface:
     """Base class for FEA software interfaces."""
@@ -124,14 +180,61 @@ class ANSYSInterface(FEAInterface):
             warnings.warn(f"Cannot load ANSYS results from {results_file}")
             return self._mock_results()
 
+class OpenSourceFEAInterface(FEAInterface):
+    """Interface for open-source FEA using FEniCSx."""
+    
+    def __init__(self):
+        super().__init__("OpenSource")
+        if OPEN_SOURCE_FEA_AVAILABLE:
+            self.solver = OpenSourceFEASolver()
+        else:
+            self.solver = None
+            warnings.warn("Open-source FEA not available. Install with: pip install -r requirements-fea.txt")
+            
+    def run_analysis(self, coil_params: Dict, analysis_type: str = "static") -> FEAResults:
+        """Run open-source FEA analysis."""
+        if self.solver is None:
+            return self._analytical_approximation(coil_params)
+            
+        # Convert coil_params to format expected by OpenSourceFEASolver
+        fea_params = {
+            'N': coil_params.get('N', 400),
+            'I': coil_params.get('I', 1171),
+            'R': coil_params.get('R', 0.2),
+            'conductor_thickness': coil_params.get('tape_thickness', 0.1e-3) * coil_params.get('n_tapes', 20),
+            'conductor_height': coil_params.get('tape_width', 4e-3),
+            'B_field': self._estimate_field_strength(coil_params)
+        }
+        
+        # Run open-source FEA
+        os_results = self.solver.compute_electromagnetic_stress(fea_params)
+        
+        # Convert to standard FEAResults format
+        return FEAResults.from_open_source(os_results)
+    
+    def _estimate_field_strength(self, coil_params: Dict) -> float:
+        """Estimate magnetic field strength for stress analysis."""
+        N = coil_params.get('N', 400)
+        I = coil_params.get('I', 1171)
+        R = coil_params.get('R', 0.2)
+        mu0 = 4e-7 * np.pi
+        
+        # Helmholtz pair center field approximation
+        return mu0 * N * I / R  # Tesla
+
 def create_fea_interface(software: str = "auto") -> FEAInterface:
     """Factory function to create appropriate FEA interface."""
-    if software.lower() == "comsol":
+    if software.lower() == "opensource" or software.lower() == "open-source":
+        return OpenSourceFEAInterface()
+    elif software.lower() == "comsol":
         return COMSOLInterface()
     elif software.lower() == "ansys":
         return ANSYSInterface()
     elif software.lower() == "auto":
-        # Try to detect available software
+        # Priority order: OpenSource -> COMSOL -> ANSYS -> Generic
+        if OPEN_SOURCE_FEA_AVAILABLE:
+            return OpenSourceFEAInterface()
+            
         try:
             import mph
             return COMSOLInterface()
@@ -147,7 +250,7 @@ def create_fea_interface(software: str = "auto") -> FEAInterface:
         warnings.warn("No FEA software detected. Using analytical approximations.")
         return FEAInterface()
     else:
-        raise ValueError(f"Unknown FEA software: {software}")
+        raise ValueError(f"Unknown FEA software: {software}. Options: 'auto', 'opensource', 'comsol', 'ansys'")
 
 def validate_fea_results(fea_results: FEAResults, analytical_results: Dict) -> Dict:
     """Validate FEA results against analytical calculations."""
@@ -260,41 +363,72 @@ FEAInterface._mock_results = _mock_results
 FEAInterface._load_json_results = _load_json_results
 
 def main():
-    """Example usage of FEA integration framework."""
-    # Create FEA interface
-    fea = create_fea_interface("auto")
+    """Example usage of FEA integration framework with open-source backend."""
+    print("HTS Coil FEA Integration Framework")
+    print("=" * 50)
     
-    # Define coil parameters
+    # Create FEA interface (auto-detects best available option)
+    fea = create_fea_interface("auto")
+    print(f"Selected FEA backend: {fea.software}")
+    
+    # Define realistic REBCO coil parameters from validation
     coil_params = {
-        'N': 400,          # turns per coil
-        'I': 1171,         # current per turn (A)
-        'R': 0.2,          # coil radius (m)
-        'tape_width': 4e-3, # REBCO tape width (m)
-        'tape_thickness': 0.1e-3  # REBCO tape thickness (m)
+        'N': 400,              # turns per coil
+        'I': 1171,             # current per turn (A)
+        'R': 0.2,              # coil radius (m)
+        'tape_width': 4e-3,    # REBCO tape width (m)
+        'tape_thickness': 0.1e-3,  # REBCO tape thickness (m)
+        'n_tapes': 20          # tapes per turn
     }
     
     # Run FEA analysis
-    print(f"Running FEA analysis with {fea.software}")
+    print(f"\nRunning FEA analysis...")
+    print(f"Configuration: N={coil_params['N']}, I={coil_params['I']}A, R={coil_params['R']}m")
+    
     results = fea.run_analysis(coil_params, analysis_type="static")
     
     # Display results
+    print(f"\nFEA Results:")
     print(f"Maximum hoop stress: {results.max_hoop_stress/1e6:.1f} MPa")
     print(f"Maximum radial stress: {results.max_radial_stress/1e6:.1f} MPa")
     print(f"Number of mesh points: {len(results.mesh_points)}")
     
-    # Validation against analytical results
-    analytical = {
-        'hoop_stress_MPa': 175.0,  # From previous analytical calculation
-        'radial_stress_MPa': 2.2   # From previous analytical calculation
-    }
+    if results.validation_error is not None:
+        print(f"Validation error vs analytical: {results.validation_error*100:.2f}%")
     
-    validation = validate_fea_results(results, analytical)
-    print("\nValidation Results:")
-    for key, value in validation.items():
-        if isinstance(value, float):
-            print(f"  {key}: {value:.2f}")
-        else:
-            print(f"  {key}: {value}")
+    # Check stress limits
+    hoop_limit = 35e6  # Pa (REBCO delamination threshold)
+    print(f"\nStress Analysis:")
+    if results.max_hoop_stress > hoop_limit:
+        print(f"⚠ WARNING: Hoop stress ({results.max_hoop_stress/1e6:.1f} MPa) exceeds")
+        print(f"           REBCO delamination limit ({hoop_limit/1e6:.1f} MPa)")
+        print("   Mechanical reinforcement required.")
+    else:
+        print(f"✓ Hoop stress within safe limits ({hoop_limit/1e6:.1f} MPa)")
+    
+    # Save results for further analysis
+    results_dict = results.to_dict()
+    results_file = Path(__file__).parent.parent / "artifacts" / "fea_results.json"
+    results_file.parent.mkdir(exist_ok=True)
+    
+    with open(results_file, 'w') as f:
+        json.dump(results_dict, f, indent=2)
+    print(f"\nResults saved to: {results_file}")
+    
+    # Analytical comparison
+    print(f"\nAnalytical Comparison:")
+    mu0 = 4e-7 * np.pi
+    B_field = mu0 * coil_params['N'] * coil_params['I'] / coil_params['R']
+    effective_thickness = coil_params['n_tapes'] * coil_params['tape_thickness']
+    analytical_hoop = B_field**2 * coil_params['R'] / (2 * mu0 * effective_thickness)
+    
+    print(f"Analytical hoop stress: {analytical_hoop/1e6:.1f} MPa")
+    print(f"FEA hoop stress: {results.max_hoop_stress/1e6:.1f} MPa")
+    if analytical_hoop > 0:
+        error_pct = abs(results.max_hoop_stress - analytical_hoop) / analytical_hoop * 100
+        print(f"Relative difference: {error_pct:.1f}%")
+    
+    print(f"\nFEA analysis completed successfully.")
 
 if __name__ == "__main__":
     main()
