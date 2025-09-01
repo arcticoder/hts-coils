@@ -41,5 +41,7 @@ papers/*.aux
 papers/*.out
 papers/*.log
 papers/*.pdf
+papers/*.bbl
+papers/*.blg
 
 papers/author_config.tex
