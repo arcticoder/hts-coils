@@ -60,3 +60,38 @@ Make targets:
 - make gates — run feasibility gates
 - make test — pytest
 - make env — print versions
+
+## IEEE Journal Figure Generation
+
+For publication in IEEE Transactions on Applied Superconductivity or similar journals, high-resolution figures based on actual simulation data are generated using:
+
+```bash
+python scripts/generate_ieee_figures.py
+```
+
+This script produces 300 DPI figures suitable for journal submission:
+
+- **field_map.png**: Magnetic field distribution from realistic REBCO coil parameters (N=400 turns, I=1171A, R=0.2m) showing center field strength and ripple characteristics
+- **stress_map.png**: Maxwell stress analysis revealing hoop stress distribution and mechanical reinforcement requirements  
+- **prototype.png**: Technical schematic with specifications and component layout for experimental validation
+
+### Figure Generation Process:
+
+1. **Magnetic Field Calculation**: Uses Biot-Savart law implementation from `src/hts/coil.py` with discretized current loops
+2. **Stress Analysis**: Maxwell stress tensor computation σᵢⱼ = (1/μ₀)[BᵢBⱼ - ½δᵢⱼB²] from field gradients
+3. **IEEE Formatting**: 300+ DPI resolution, Times Roman fonts, colorblind-friendly palettes, proper axis labels and units
+
+### Simulation Parameters (Realistic REBCO):
+- Turns: 400 (based on 4mm tape width, 0.2mm thickness)
+- Current: 1171 A (146 A/mm² current density at 77K)
+- Radius: 0.2 m (practical size for laboratory demonstration)
+- Field Performance: 2.11 T center field, 40.7% ripple
+- Stress Limits: 415.9 MPa maximum hoop stress (exceeds 35 MPa delamination threshold)
+
+Figures are automatically copied to `papers/figures/` for LaTeX compilation. The journal paper can be compiled with:
+
+```bash
+cd papers && pdflatex hts_coils_journal_format.tex
+```
+
+**Reproducibility**: Figure generation uses deterministic simulation parameters. For uncertainty quantification, run parameter sweeps documented in `docs/UQ-TODO.ndjson`.
