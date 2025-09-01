@@ -9,13 +9,11 @@
 
 \title{\Large\bfseries Optimization of REBCO High-Temperature Superconducting Coils for High-Field Applications in Fusion and Antimatter Trapping}
 
-\author{
-HTS Coil Development Team\\
-Advanced Propulsion Research Laboratory\\
-\textit{Email: hts-coils@example.org}
-}
-
-\date{}
+\input{author_config.tex}
+% Author populated from author_config.tex
+\author{\authorname\\\texttt{\authoremail}}
+% Freeze to the run date for archival reproducibility
+\date{August 31, 2025}
 
 \begin{document}
 
@@ -74,6 +72,14 @@ The optimized Helmholtz pair achieves:
 \item Critical current density: 146 A/mm$^2$ at operating point
 \end{itemize}
 
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=0.48\textwidth]{figures/field_map.png}
+	\includegraphics[width=0.48\textwidth]{figures/stress_map.png}
+	\caption{Left: magnetic field magnitude (T) in the coil central plane (placeholder). Right: hoop stress distribution (MPa) showing peak stresses near the coil inner radius (placeholder).}
+	\label{fig:field_stress}
+\end{figure*}
+
 \subsection{Mechanical Reinforcement Analysis}
 
 Baseline design exhibits 175 MPa hoop stress, exceeding the 35 MPa REBCO delamination limit. Reinforcement strategies achieve 28 MPa through:
@@ -83,6 +89,13 @@ Baseline design exhibits 175 MPa hoop stress, exceeding the 35 MPa REBCO delamin
 \item Distributed Kapton spacers
 \item Cost impact: +\$1.9M for reinforced prototype
 \end{itemize}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.9\columnwidth]{figures/prototype.png}
+	\caption{Prototype schematic showing coil geometry and cryocooler placement (placeholder).}
+	\label{fig:prototype}
+\end{figure}
 
 \subsection{AC Loss and Sensitivity Analysis}
 
