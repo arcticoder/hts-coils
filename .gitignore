@@ -33,3 +33,13 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+tools/fenced_unsaved.md
+tools/fenced_outputs/
+
+papers/*.aux
+papers/*.out
+papers/*.log
+papers/*.pdf
+
+papers/author_config.tex
