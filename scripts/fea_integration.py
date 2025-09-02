@@ -24,6 +24,13 @@ except ImportError:
     FEA_AVAILABLE = False
     warnings.warn("Open-source FEA module not available")
 
+try:
+    from hts.comsol_fea import COMSOLFEASolver
+    COMSOL_AVAILABLE = True
+except ImportError:
+    COMSOL_AVAILABLE = False
+    warnings.warn("COMSOL FEA module not available")
+
 class FEAResults:
     """Container for FEA simulation results with unified interface."""
     
@@ -68,8 +75,8 @@ class FEAResults:
             displacement[:min(len(disp_reshaped), n_points)] = disp_reshaped[:n_points]
         
         return cls(mesh_points=mesh_points, stress_tensor=stress_tensor,
-                  displacement_field=displacement,
-                  validation_error=fea_results.validation_error)
+                   displacement=displacement,
+                   validation_error=fea_results.validation_error)
         
     @property
     def hoop_stress(self) -> np.ndarray:
@@ -126,26 +133,59 @@ class COMSOLInterface(FEAInterface):
     
     def __init__(self):
         super().__init__("COMSOL")
+        if COMSOL_AVAILABLE:
+            self.solver = COMSOLFEASolver()
+        else:
+            self.solver = None
+            warnings.warn("COMSOL FEA not available")
         
     def run_analysis(self, coil_params: Dict, analysis_type: str = "static") -> FEAResults:
-        """Run COMSOL analysis via LiveLink for Python (requires COMSOL license)."""
-        try:
-            import mph  # COMSOL Python interface
-        except ImportError:
-            warnings.warn("COMSOL Python interface not available. Using analytical approximation.")
+        """Run COMSOL analysis via batch mode (no GUI required)."""
+        if self.solver is None:
+            warnings.warn("COMSOL solver not available. Using analytical approximation.")
             return self._analytical_approximation(coil_params)
-            
-        # Example COMSOL workflow (requires actual COMSOL installation)
-        # client = mph.start()
-        # model = client.load('hts_coil_model.mph')
-        # ... configure parameters and run ...
         
-        # For now, return analytical approximation
-        return self._analytical_approximation(coil_params)
+        # Convert coil_params to format expected by COMSOLFEASolver  
+        fea_params = {
+            'N': coil_params.get('N', 400),
+            'I': coil_params.get('I', 1171),
+            'R': coil_params.get('R', 0.2),
+            'conductor_thickness': coil_params.get('tape_thickness', 0.1e-3) * coil_params.get('n_tapes', 20),
+            'conductor_height': coil_params.get('tape_width', 4e-3),
+            'B_field': self._estimate_field_strength(coil_params)
+        }
+        
+        # Run COMSOL FEA
+        comsol_results = self.solver.compute_electromagnetic_stress(fea_params)
+        
+        # Convert to standard FEAResults format
+        return FEAResults.from_fea(comsol_results)
+    
+    def _estimate_field_strength(self, coil_params: Dict) -> float:
+        """Estimate magnetic field strength for stress analysis."""
+        N = coil_params.get('N', 400)
+        I = coil_params.get('I', 1171)
+        R = coil_params.get('R', 0.2)
+        mu0 = 4e-7 * np.pi
+        
+        # Helmholtz pair center field approximation
+        return mu0 * N * I / R  # Tesla
         
     def load_results(self, results_file: Union[str, Path]) -> FEAResults:
-        """Load COMSOL results from .mph file or exported data."""
-        # Placeholder implementation
+        """Load COMSOL results from exported data file."""
+        if Path(results_file).suffix in ['.txt', '.dat', '.csv']:
+            # Try to load COMSOL exported data
+            try:
+                data = np.loadtxt(results_file)
+                if data.shape[1] >= 7:  # Expected COMSOL format
+                    # Parse mesh and stress data
+                    mesh_points = data[:, :3]  # r, z, theta -> x, y, z
+                    stress_tensor = data[:, 3:9] if data.shape[1] >= 9 else np.zeros((len(data), 6))
+                    displacement = np.zeros((len(data), 3))
+                    return FEAResults(mesh_points, stress_tensor, displacement)
+            except Exception as e:
+                warnings.warn(f"Failed to load COMSOL results: {e}")
+        
         if Path(results_file).suffix == '.json':
             return self._load_json_results(results_file)
         else:
@@ -232,21 +272,20 @@ def create_fea_interface(software: str = "auto") -> FEAInterface:
     elif software.lower() == "ansys":
         return ANSYSInterface()
     elif software.lower() == "auto":
-        # Priority order: FEniCS -> COMSOL -> ANSYS -> Generic
-        if FEA_AVAILABLE:
-            return FEAInterface_FEniCS()
-            
-        try:
-            import mph
+        # Priority order: COMSOL -> FEniCS -> ANSYS -> Generic
+        if COMSOL_AVAILABLE:
+            print("🔧 Auto-detected COMSOL Multiphysics")
             return COMSOLInterface()
-        except ImportError:
-            pass
-            
-        try:
-            import ansys.mapdl.core
-            return ANSYSInterface()
-        except ImportError:
-            pass
+        elif FEA_AVAILABLE:
+            print("🔧 Auto-detected FEniCSx (open-source)")
+            return FEAInterface_FEniCS()
+        else:
+            try:
+                import ansys.mapdl.core
+                print("🔧 Auto-detected PyAnsys")
+                return ANSYSInterface()
+            except ImportError:
+                pass
             
         warnings.warn("No FEA software detected. Using analytical approximations.")
         return FEAInterface()
