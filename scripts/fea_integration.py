@@ -18,10 +18,10 @@ import warnings
 sys.path.append(str(Path(__file__).parent.parent / "src"))
 
 try:
-    from hts.open_source_fea import OpenSourceFEASolver, OpenSourceFEAResults
-    OPEN_SOURCE_FEA_AVAILABLE = True
+    from hts.fea import FEASolver, FEAResults
+    FEA_AVAILABLE = True
 except ImportError:
-    OPEN_SOURCE_FEA_AVAILABLE = False
+    FEA_AVAILABLE = False
     warnings.warn("Open-source FEA module not available")
 
 class FEAResults:
@@ -37,38 +37,39 @@ class FEAResults:
         self.validation_error = validation_error  # Validation error vs analytical
         
     @classmethod
-    def from_open_source(cls, os_results: 'OpenSourceFEAResults') -> 'FEAResults':
-        """Create FEAResults from OpenSourceFEAResults."""
-        # Convert to standard format
-        n_points = len(os_results.mesh_nodes) if os_results.mesh_nodes is not None else 100
+    def from_fea(cls, fea_results: 'FEAResults') -> 'FEAResults':
+        """Convert from FEA results format to standardized format."""
+        n_points = len(fea_results.mesh_nodes) if fea_results.mesh_nodes is not None else 100
         
-        if os_results.mesh_nodes is not None:
-            mesh_points = os_results.mesh_nodes
+        if fea_results.mesh_nodes is not None:
+            mesh_points = fea_results.mesh_nodes
         else:
-            # Create dummy mesh for analytical results
-            theta = np.linspace(0, 2*np.pi, 50)
-            r = 0.2  # Default radius
-            mesh_points = np.column_stack([r*np.cos(theta), r*np.sin(theta), np.zeros(50)])
+            # Generate synthetic mesh for visualization
+            theta = np.linspace(0, 2*np.pi, n_points)
+            r = np.linspace(0.18, 0.22, int(n_points/8))  # Coil cross-section
+            mesh_points = np.column_stack([
+                np.repeat(r, len(theta)),
+                np.tile(theta, len(r)),
+                np.zeros(len(r) * len(theta))
+            ])
         
-        # Create stress tensor array
-        if os_results.stress_tensor is not None:
-            stress_tensor = os_results.stress_tensor
+        if fea_results.stress_tensor is not None:
+            stress_tensor = fea_results.stress_tensor
         else:
-            # Create uniform stress field from max values
-            n_points = len(mesh_points)
-            stress_tensor = np.zeros((n_points, 6))
-            stress_tensor[:, 0] = os_results.max_radial_stress  # Radial
-            stress_tensor[:, 1] = os_results.max_hoop_stress    # Hoop
-        
-        displacement = np.zeros_like(mesh_points)
-        if os_results.displacement_field is not None:
+            # Create synthetic stress tensor from scalar values
+            stress_tensor = np.zeros((n_points, 6))  # [σxx, σyy, σzz, τxy, τxz, τyz]
+            stress_tensor[:, 0] = fea_results.max_radial_stress  # Radial
+            stress_tensor[:, 1] = fea_results.max_hoop_stress    # Hoop
+            
+        displacement = np.zeros((n_points, 3))
+        if fea_results.displacement_field is not None:
             # Reshape displacement field to match mesh
-            disp_reshaped = os_results.displacement_field.reshape(-1, mesh_points.shape[1])
-            if len(disp_reshaped) == len(mesh_points):
-                displacement = disp_reshaped
+            disp_reshaped = fea_results.displacement_field.reshape(-1, mesh_points.shape[1])
+            displacement[:min(len(disp_reshaped), n_points)] = disp_reshaped[:n_points]
         
-        return cls(mesh_points, stress_tensor, displacement, 
-                  validation_error=os_results.validation_error)
+        return cls(mesh_points=mesh_points, stress_tensor=stress_tensor,
+                  displacement_field=displacement,
+                  validation_error=fea_results.validation_error)
         
     @property
     def hoop_stress(self) -> np.ndarray:
@@ -180,13 +181,13 @@ class ANSYSInterface(FEAInterface):
             warnings.warn(f"Cannot load ANSYS results from {results_file}")
             return self._mock_results()
 
-class OpenSourceFEAInterface(FEAInterface):
+class FEAInterface_FEniCS(FEAInterface):
     """Interface for open-source FEA using FEniCSx."""
     
     def __init__(self):
-        super().__init__("OpenSource")
-        if OPEN_SOURCE_FEA_AVAILABLE:
-            self.solver = OpenSourceFEASolver()
+        super().__init__("FEniCS")
+        if FEA_AVAILABLE:
+            self.solver = FEASolver()
         else:
             self.solver = None
             warnings.warn("Open-source FEA not available. Install with: pip install -r requirements-fea.txt")
@@ -196,7 +197,7 @@ class OpenSourceFEAInterface(FEAInterface):
         if self.solver is None:
             return self._analytical_approximation(coil_params)
             
-        # Convert coil_params to format expected by OpenSourceFEASolver
+        # Convert coil_params to format expected by FEASolver
         fea_params = {
             'N': coil_params.get('N', 400),
             'I': coil_params.get('I', 1171),
@@ -210,7 +211,7 @@ class OpenSourceFEAInterface(FEAInterface):
         os_results = self.solver.compute_electromagnetic_stress(fea_params)
         
         # Convert to standard FEAResults format
-        return FEAResults.from_open_source(os_results)
+        return FEAResults.from_fea(os_results)
     
     def _estimate_field_strength(self, coil_params: Dict) -> float:
         """Estimate magnetic field strength for stress analysis."""
@@ -224,16 +225,16 @@ class OpenSourceFEAInterface(FEAInterface):
 
 def create_fea_interface(software: str = "auto") -> FEAInterface:
     """Factory function to create appropriate FEA interface."""
-    if software.lower() == "opensource" or software.lower() == "open-source":
-        return OpenSourceFEAInterface()
+    if software.lower() == "fenics" or software.lower() == "open-source":
+        return FEAInterface_FEniCS()
     elif software.lower() == "comsol":
         return COMSOLInterface()
     elif software.lower() == "ansys":
         return ANSYSInterface()
     elif software.lower() == "auto":
-        # Priority order: OpenSource -> COMSOL -> ANSYS -> Generic
-        if OPEN_SOURCE_FEA_AVAILABLE:
-            return OpenSourceFEAInterface()
+        # Priority order: FEniCS -> COMSOL -> ANSYS -> Generic
+        if FEA_AVAILABLE:
+            return FEAInterface_FEniCS()
             
         try:
             import mph
@@ -250,7 +251,7 @@ def create_fea_interface(software: str = "auto") -> FEAInterface:
         warnings.warn("No FEA software detected. Using analytical approximations.")
         return FEAInterface()
     else:
-        raise ValueError(f"Unknown FEA software: {software}. Options: 'auto', 'opensource', 'comsol', 'ansys'")
+        raise ValueError(f"Unknown FEA software: {software}. Options: 'auto', 'fenics', 'comsol', 'ansys'")
 
 def validate_fea_results(fea_results: FEAResults, analytical_results: Dict) -> Dict:
     """Validate FEA results against analytical calculations."""
