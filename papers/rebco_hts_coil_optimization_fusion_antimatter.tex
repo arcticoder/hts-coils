@@ -125,7 +125,7 @@ The framework integrates multiple FEA backends for comprehensive validation and 
 
 Open-source FEA implementation uses FEniCSx (dolfinx) with cylindrical mesh generation and electromagnetic body force modeling. The solver handles 2D axisymmetric problems with linear elasticity and validates against analytical hoop stress solutions with $<1\%$ error. Mesh convergence studies demonstrate quadratic convergence with 720-point discretization achieving $<10^{-14}$ numerical error.
 
-COMSOL integration operates through batch processing without GUI interaction, generating Java-based model files for automated execution. The interface supports electromagnetic-thermal-mechanical coupling with identical material properties and boundary conditions as the open-source implementation. Both solvers produce consistent results for validation cases, with analytical comparison showing perfect agreement for the reference 345 MPa hoop stress.
+COMSOL integration operates through batch processing without GUI interaction, generating Java-based model files for automated execution~\cite{comsol2023}. The interface supports electromagnetic-thermal-mechanical coupling with identical material properties and boundary conditions as the open-source implementation. Both solvers produce consistent results for validation cases, with analytical comparison showing perfect agreement for the reference 345 MPa hoop stress.
 
 Cross-platform validation protocol:
 \begin{enumerate}
@@ -185,15 +185,11 @@ which yields approximately 30\% total uncertainty dominated by $J_c$ variations 
 
 \subsection{Reproducibility and Future Validation}
 
-\subsection{Reproducibility and Future Validation}
-
 All simulations employ deterministic parameters with software specifications: Python 3.11, NumPy 1.24, SciPy 1.10. Complete source code is available at \url{https://github.com/arcticoder/hts-coils} with reproducible execution commands: field optimization (\texttt{python scripts/realistic\_optimization.py --validate --config examples/baseline.json}), stress analysis (\texttt{python scripts/fea\_integration.py --backend comsol}), Monte Carlo analysis (\texttt{python scripts/sensitivity\_analysis.py --samples 1000 --seed 42}). 
 
 Multi-backend FEA support enables cross-validation: \texttt{python scripts/fea\_integration.py --backend auto} automatically selects available solvers (COMSOL Multiphysics, FEniCSx, or analytical fallback). COMSOL integration: \texttt{python -c "from scripts.fea\_integration import create\_fea\_interface; fea = create\_fea\_interface('comsol'); results = fea.run\_analysis(\{...\})"} provides batch-mode operation without GUI requirements.
 
 Docker environment (example): \texttt{docker run -v /absolute/path/to/repo:/workspace hts-coils:latest python scripts/full\_pipeline.py} (replace \texttt{/absolute/path/to/repo} with your working directory; in a shell you can use \texttt{\$(pwd)}). All dependencies are explicitly versioned in \texttt{requirements.txt} with SHA-256 hashes. Raw simulation data (field maps, stress tensors) are archived at Zenodo DOI:10.5281/zenodo.17028975.
-
-\subsection{Computational Performance and Reproducibility}
 
 \subsection{Computational Performance and Reproducibility}
 
@@ -259,6 +255,9 @@ Center for Fusion Systems, ``Comparative cost study of superconducting magnet te
 
 \bibitem{deissler2014}
 R. Deissler, ``Manufacturing tolerances and their impact on superconducting magnet feasibility,'' \textit{IEEE Transactions on Applied Superconductivity}, vol. 24, no. 3, pp. 1--8, 2014.
+
+\bibitem{comsol2023}
+COMSOL Inc., ``COMSOL Multiphysics Reference Manual, Version 6.1,'' COMSOL Documentation, 2023.
 
 \end{thebibliography}
 
