@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Open-source finite element analysis for HTS coil electromagnetic stress simulation.
+Finite element analysis for HTS coil electromagnetic stress simulation.
 
-This module provides a complete FEA implementation using open-source libraries:
+This module provides a complete FEA implementation using modern libraries:
 - FEniCSx (dolfinx) for finite element solving
 - Gmsh for mesh generation (optional integration)
 - NumPy/SciPy for computational backend
@@ -28,7 +28,7 @@ except ImportError:
     warnings.warn("FEniCSx not available. Install with: pip install fenics-dolfinx", ImportWarning)
 
 
-class OpenSourceFEAResults:
+class FEAResults:
     """Container for FEA simulation results with analytical validation."""
     
     def __init__(self, max_hoop_stress: float, max_radial_stress: float,
@@ -55,9 +55,9 @@ class OpenSourceFEAResults:
         }
 
 
-class OpenSourceFEASolver:
+class FEASolver:
     """
-    Open-source FEA solver for electromagnetic stress analysis in HTS coils.
+    FEA solver for electromagnetic stress analysis in HTS coils.
     
     Uses FEniCSx (dolfinx) for finite element simulation with built-in validation
     against analytical solutions for circular coil geometries.
@@ -138,7 +138,7 @@ class OpenSourceFEASolver:
         mu_0 = 4 * np.pi * 1e-7  # Vacuum permeability
         return (B_field**2 * radius) / (2 * mu_0 * conductor_thickness)
     
-    def compute_electromagnetic_stress(self, coil_params: Dict[str, float]) -> OpenSourceFEAResults:
+    def compute_electromagnetic_stress(self, coil_params: Dict[str, float]) -> FEAResults:
         """
         Compute electromagnetic stress distribution in HTS coil using FEA.
         
@@ -155,7 +155,7 @@ class OpenSourceFEASolver:
             
         Returns:
         --------
-        OpenSourceFEAResults object with stress analysis results
+        FEAResults object with stress analysis results
         """
         
         if not FENICS_AVAILABLE:
@@ -239,7 +239,7 @@ class OpenSourceFEASolver:
         analytical_stress = self.analytical_hoop_stress(B, R, t_cond)
         validation_error = abs(max_hoop_stress - analytical_stress) / analytical_stress
         
-        return OpenSourceFEAResults(
+        return FEAResults(
             max_hoop_stress=max_hoop_stress,
             max_radial_stress=max_radial_stress,
             displacement_field=uh.x.array,
@@ -248,7 +248,7 @@ class OpenSourceFEASolver:
             validation_error=validation_error
         )
     
-    def _analytical_fallback(self, coil_params: Dict[str, float]) -> OpenSourceFEAResults:
+    def _analytical_fallback(self, coil_params: Dict[str, float]) -> FEAResults:
         """
         Analytical fallback when FEniCSx is not available.
         
@@ -264,7 +264,7 @@ class OpenSourceFEASolver:
         # Radial stress (typically much smaller)
         radial_stress = hoop_stress * 0.1  # Approximate ratio
         
-        return OpenSourceFEAResults(
+        return FEAResults(
             max_hoop_stress=hoop_stress,
             max_radial_stress=radial_stress,
             validation_error=0.0  # Perfect match for analytical solution
@@ -291,7 +291,7 @@ def validate_fea_implementation():
     }
     
     # Initialize FEA solver
-    solver = OpenSourceFEASolver(
+    solver = FEASolver(
         young_modulus=200e9,    # Pa (steel reinforcement)
         poisson_ratio=0.3,
         mesh_resolution=30      # Moderate resolution for testing
@@ -319,16 +319,16 @@ def validate_fea_implementation():
 
 
 # Integration with existing fea_integration.py
-def create_open_source_fea_interface():
+def create_fea_interface():
     """
     Create FEA interface compatible with existing fea_integration.py framework.
     
     Returns:
     --------
-    fea_interface : OpenSourceFEASolver
+    fea_interface : FEASolver
         Ready-to-use FEA solver instance
     """
-    return OpenSourceFEASolver()
+    return FEASolver()
 
 
 if __name__ == "__main__":

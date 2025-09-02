@@ -113,7 +113,7 @@ print(f"Field ripple: {ripple*100:.3f}%")
 from scripts.fea_integration import create_fea_interface
 
 # Initialize open-source FEA solver
-fea = create_fea_interface("opensource")
+fea = create_fea_interface("fenics")
 
 # Define coil configuration
 coil_params = {
@@ -146,7 +146,7 @@ hts-coils/
 ├── src/hts/                    # Core simulation modules
 │   ├── coil.py                 # Biot-Savart field calculations
 │   ├── materials.py            # REBCO Jc(T,B) models
-│   └── open_source_fea.py      # FEniCSx stress analysis
+│   └── fea.py                  # FEniCSx stress analysis
 ├── scripts/                    # Analysis and optimization scripts
 │   ├── realistic_optimization.py
 │   ├── fea_integration.py
