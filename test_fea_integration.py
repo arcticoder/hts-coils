@@ -153,6 +153,50 @@ def test_fea_integration_framework():
         traceback.print_exc()
         return None
 
+def test_fea_backend_compatibility():
+    """Test explicit backend compatibility between FEniCS and COMSOL."""
+    print("\nTesting FEA Backend Compatibility")
+    print("=" * 40)
+    
+    try:
+        from scripts.fea_integration import create_fea_interface
+        
+        # Standard coil parameters for compatibility testing
+        coil_params = {
+            'N': 400, 'I': 1171, 'R': 0.2,
+            'tape_width': 4e-3, 'tape_thickness': 0.1e-3, 'n_tapes': 20
+        }
+        
+        # Test both backends explicitly
+        print("Testing FEniCS backend...")
+        fenics_fea = create_fea_interface('fenics')
+        fenics_result = fenics_fea.run_analysis(coil_params)
+        fenics_hoop_stress = fenics_result.max_hoop_stress
+        
+        print("Testing COMSOL backend...")
+        comsol_fea = create_fea_interface('comsol')  
+        comsol_result = comsol_fea.run_analysis(coil_params)
+        comsol_hoop_stress = comsol_result.max_hoop_stress
+        
+        # Check compatibility
+        relative_error = abs(fenics_hoop_stress - comsol_hoop_stress) / fenics_hoop_stress
+        
+        print(f"FEniCS hoop stress: {fenics_hoop_stress/1e6:.1f} MPa")
+        print(f"COMSOL hoop stress: {comsol_hoop_stress/1e6:.1f} MPa")
+        print(f"Relative difference: {relative_error*100:.6f}%")
+        
+        # Compatibility check
+        if relative_error < 0.001:  # <0.1% difference
+            print("✅ Backends are fully compatible")
+            return True
+        else:
+            print(f"⚠️  Backend results diverge by {relative_error*100:.3f}%")
+            return False
+            
+    except Exception as e:
+        print(f"❌ Backend compatibility test failed: {e}")
+        return False
+
 def compare_solver_results(results_dict):
     """Compare results across different solvers."""
     print("\nSolver Comparison")
@@ -262,14 +306,26 @@ def main():
     comsol_results = test_comsol_integration()
     integration_results = test_fea_integration_framework()
     
+    # Run backend compatibility test
+    compatibility_passed = test_fea_backend_compatibility()
+    
     # Compare results
     if integration_results:
         compare_solver_results(integration_results)
     
     # Generate report
     report = generate_validation_report(original_results, comsol_results, integration_results)
+    report['backend_compatibility'] = compatibility_passed
     
     print(f"\nValidation completed. Check artifacts/ for detailed results.")
+    
+    # Summary with compatibility
+    if compatibility_passed:
+        print("✅ Backend compatibility: PASSED")
+    else:
+        print("❌ Backend compatibility: FAILED")
+        
+    return report
 
 if __name__ == "__main__":
     main()
