@@ -139,7 +139,7 @@ The unified framework enables researchers to leverage available computational re
 
 \subsection{AC Loss and Sensitivity Analysis}
 
-AC loss modeling reveals static operation has negligible losses (<0.001 W), while 1 mHz ripple generates 92 W loss using Norris/Brandt models~\cite{norris1970,brandt1995}, incompatible with thermal margins. Monte Carlo sensitivity analysis~\cite{iwasa2022} (1000 samples) shows only 0.2\% feasibility under tight constraints, with critical parameters including $J_c$ (300±50 A/mm$^2$) and tape thickness (0.1±0.02 mm).
+AC loss modeling reveals static operation has negligible losses ($<0.001 W$), while 1 mHz ripple generates 92 W loss using Norris/Brandt models~\cite{norris1970,brandt1995}, incompatible with thermal margins. Monte Carlo sensitivity analysis~\cite{iwasa2022} (1000 samples) shows only 0.2\% feasibility under tight constraints, with critical parameters including $J_c$ (300±50 A/mm$^2$) and tape thickness (0.1±0.02 mm).
 
 \section{Discussion}
 
@@ -175,7 +175,7 @@ Twisted-tape architectures offer reduced AC losses (factor 3-5) but introduce an
 
 \subsection{Model Assumptions and Uncertainty Analysis}
 
-Key modeling assumptions include: (1) uniform current density within tapes~\cite{superpower2023} (±10\% manufacturing variation), (2) linear elastic material response (valid for $\sigma < 200$~MPa), (3) steady-state thermal conditions~\cite{iwasa2022} (validated for >10~s time scales), and (4) ideal cryocooler performance (accounting for 15\% efficiency degradation).
+Key modeling assumptions include: (1) uniform current density within tapes~\cite{superpower2023} (±10\% manufacturing variation), (2) linear elastic material response (valid for $\sigma < 200$~MPa), (3) steady-state thermal conditions~\cite{iwasa2022} (validated for $>10~s$ time scales), and (4) ideal cryocooler performance (accounting for 15\% efficiency degradation).
 
 Quantitative assumption impacts: assuming uniform current density with a typical manufacturing variation of \textpm10\% leads to corresponding changes in field ripple. Error propagation was evaluated as
 \begin{equation}
@@ -189,7 +189,7 @@ All simulations employ deterministic parameters with software specifications: Py
 
 Multi-backend FEA support enables cross-validation: \texttt{python scripts/fea\_integration.py --backend auto} automatically selects available solvers (COMSOL Multiphysics, FEniCSx, or analytical fallback). COMSOL integration: \texttt{python -c "from scripts.fea\_integration import create\_fea\_interface; fea = create\_fea\_interface('comsol'); results = fea.run\_analysis(\{...\})"} provides batch-mode operation without GUI requirements.
 
-Docker environment (example): \texttt{docker run -v /absolute/path/to/repo:/workspace hts-coils:latest python scripts/full\_pipeline.py} (replace \texttt{/absolute/path/to/repo} with your working directory; in a shell you can use \texttt{\$(pwd)}). All dependencies are explicitly versioned in \texttt{requirements.txt} with SHA-256 hashes. Raw simulation data (field maps, stress tensors) are archived at Zenodo DOI:10.5281/zenodo.17028975.
+Docker environment (example): \texttt{docker run -v /absolute/path/to/repo:/workspace hts-coils:latest python scripts/full\_pipeline.py} (replace \texttt{/absolute/path/to/repo} with your working directory; in a shell you can use \texttt{\$(pwd)}). All dependencies are explicitly versioned in \texttt{requirements.txt} with SHA-256 hashes. Raw simulation data (field maps, stress tensors) are archived at Zenodo DOI:10.5281/zenodo.17033655.
 
 \subsection{Computational Performance and Reproducibility}
 
