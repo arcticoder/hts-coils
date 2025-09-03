@@ -276,6 +276,7 @@ def validate_high_field_parameters(I: float = 1800, N: int = 1000, R: float = 0.
         'rebco_stress_limit_Pa': rebco_stress_limit,
         'rebco_stress_limit_MPa': rebco_stress_limit / 1e6,
         'parameters_valid': parameters_valid,
+        'overall_feasible': parameters_valid,  # Add alias for compatibility
         'achieved_field_T': field_result['B_magnitude'],
         'thermal_margin_K': thermal_result['thermal_margin_K'],
         'current_utilization': field_result['current_utilization']

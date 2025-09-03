@@ -1,6 +1,5 @@
-\documentclass[10pt,twocolumn]{articl\begin{abstract}
-We present a comprehensive optimization framework for REBCO high-temperature superconducting coils achieving validated 5-10 T capability with engineering feasibility. The approach integrates electromagnetic-thermal-mechanical modeling with manufacturing constraints, enabling precision applications (2.1 T, 0.01\% ripple) and high-field operation (7.07 T, 0.16\% ripple). Key innovations include multi-tape conductor design (30\% current utilization), validated space-thermal modeling (74.5 K safety margin), and systematic stress reduction (179 to 35 MPa). The methodology provides 60\% cost reduction versus conventional systems while extending to fusion plasma confinement and antimatter applications requiring precise high-field control.
-\end{abstract}\usepackage[utf8]{inputenc}
+\documentclass[10pt,twocolumn]{article}
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -9,6 +8,8 @@ We present a comprehensive optimization framework for REBCO high-temperature sup
 \usepackage{times} % IEEE typically uses Times font
 \usepackage{microtype} % better line breaking and fewer overfull/underfull boxes
 \usepackage{url}      % allow breaking of URLs and path-like text
+\usepackage{pifont}   % for checkmark symbols
+\providecommand{\checkmark}{\ding{51}}
 
 \title{\Large\bfseries Optimization of REBCO High-Temperature Superconducting Coils for High-Field Applications in Fusion and Antimatter Trapping}
 
@@ -46,7 +47,7 @@ We present a comprehensive optimization framework for REBCO high-temperature sup
 
 High-field magnets utilizing rare-earth barium copper oxide (REBCO) high-temperature superconductors (HTS) enable applications beyond conventional limits, addressing critical challenges in fusion energy and antimatter research \cite{zhou2023}. The push toward 5-10 T operation stems from fundamental physics requirements: fusion plasma confinement scales as $B^2$, while antimatter production rates increase exponentially with magnetic field strength above 5 T thresholds \cite{alpha2023}.
 
-Recent advances in REBCO tape manufacturing demonstrate critical current densities exceeding 300~A/mm$^2$ at 20~K \cite{superpower2022}, enabling controlled high-field applications approaching record-breaking systems of 45.5~T \cite{hahn2019}. However, the transition from demonstration-scale systems to engineering-practical designs requires systematic optimization frameworks that simultaneously address electromagnetic performance, thermal management, and mechanical integrity.
+Recent advances in REBCO tape manufacturing demonstrate critical current densities exceeding 300~MA/m$^2$ at 20~K \cite{superpower2022}, enabling controlled high-field applications approaching record-breaking systems of 45.5~T \cite{hahn2019}. However, the transition from demonstration-scale systems to engineering-practical designs requires systematic optimization frameworks that simultaneously address electromagnetic performance, thermal management, and mechanical integrity.
 
 Antimatter research relies heavily on magnetic confinement, with CERN's Antihydrogen Laser Physics Apparatus (ALPHA) and AEgIS experiments successfully trapping antihydrogen using 1--5~T fields \cite{alpha2023,aegis2018}. Next-generation experiments require 5-10 T capabilities for enhanced trapping efficiency and precision measurements. Similarly, fusion applications demand precise field control, exemplified by the Soonest/Smallest Private-Funded Affordable Robust Compact (SPARC) tokamak's 20~T central solenoid \cite{sparc2020}.
 
@@ -65,7 +66,7 @@ The discretization uses 720 points per coil (0.5° angular resolution), validate
 \begin{equation}
 J_c(T,B) = J_{c0} \left(1-\frac{T}{T_c}\right)^{1.5} \left(1+\frac{B}{B_0}\right)^{-1.5}
 \end{equation}
-where $J_{c0}=300$~A/mm$^2$, $T_c=90$~K, and $B_0=5$~T based on SuperPower 2G HTS specifications \cite{superpower2023}.
+where $J_{c0}=300$~MA/m$^2$, $T_c=90$~K, and $B_0=5$~T based on SuperPower 2G HTS specifications \cite{superpower2023}.
 
 \subsection{Multi-Objective Optimization Framework}
 
@@ -97,12 +98,12 @@ This section presents validation results for both baseline precision application
 The optimized Helmholtz pair achieves 2.1~T central field with 0.01\% ripple, operating at 50\% critical current for thermal safety~\cite{sparc2020}. Key parameters:
 \begin{itemize}
 \item Geometry: $N = 400$ turns, $R = 0.2$~m, separation $R/2 = 0.1$~m
-\item Operating point: $I = 1171$~A, $J_c = 146$~A/mm$^2$ (cf. 300~A/mm$^2$ at 77~K, 0~T)
+\item Operating point: $I = 1171$~A, $J_c = 146$~MA/m$^2$ (cf. 300~MA/m$^2$ at 77~K, 0~T)
 \item Performance: $B = 2.1$~T, $\delta B / B = 0.01\%$, thermal margin = 70~K
 \item Material: 20.1~km REBCO tape (4~mm width, 0.1~mm thickness), cost \$402k
 \end{itemize}
 
-SPARC scaling validates our approach~\cite{sparc2020}: scaling 20~T/20~kA/1.85~m to our geometry predicts $B = 20 \times (1171/20000) \times (1.85/0.2) = 1.08$~T, consistent with our 2.1~T result considering the nonlinear $J_c(B,T)$ dependence. The reduced current density (146 vs 300~A/mm$^2$) reflects field-dependent derating~\cite{hahn2019,superpower2023}: $J_c(2.1\text{T}, 20\text{K}) = 300 \times (1-20/90)^{1.5} / (1+2.1/5)^{1.5} = 146$~A/mm$^2$, as illustrated in Figure~\ref{fig:field_stress}.
+SPARC scaling validates our approach~\cite{sparc2020}: scaling 20~T/20~kA/1.85~m to our geometry predicts $B = 20 \times (1171/20000) \times (1.85/0.2) = 1.08$~T, consistent with our 2.1~T result considering the nonlinear $J_c(B,T)$ dependence. The reduced current density (146 vs 300~MA/m$^2$) reflects field-dependent derating~\cite{hahn2019,superpower2023}: $J_c(2.1\text{T}, 20\text{K}) = 300 \times (1-20/90)^{1.5} / (1+2.1/5)^{1.5} = 146$~MA/m$^2$, as illustrated in Figure~\ref{fig:field_stress}.
 
 \begin{figure*}[t]
 	\centering
@@ -157,7 +158,7 @@ This multi-tape architecture follows established practice in high-field HTS magn
 
 \textbf{Critical Current Validation at 15 K:} The Kim model prediction $J_c = 85.1$ MA/m$^2$ at 15 K, 7.07 T is validated against experimental data: SuperPower 2G tape specifications~\cite{superpower2023} report $J_c = 300$ MA/m$^2$ at 77 K, 0 T; applying field and temperature scaling $(1-T/90)^{1.5}/(1+B/5)^{1.5}$ yields $J_c(15\text{K}, 7.07\text{T}) = 300 \times (1-15/90)^{1.5} / (1+7.07/5)^{1.5} = 85.1$ MA/m$^2$. This agrees within 2\% with independent measurements from NHMFL~\cite{hahn2019} and Zhai et al.~\cite{zhai2020} for similar field/temperature conditions, confirming model accuracy.
 
-\textbf{Cryogenic Requirements and Scaling:} 15 K operation requires closed-cycle cryocoolers with 150 W capacity at 15 K, commercially available from Sumitomo and Cryomech with demonstrated reliability >8760 hours continuous operation. Thermal load budget: joule heating (0.92 W), radiation (0.12 W), MLI leakage (0.08 W), total 1.12 W provides 134× margin vs 150 W capacity. Cryocooler efficiency degradation (15\% over 5 years) accommodated through 148.5 W effective capacity, maintaining 132× thermal safety margin.
+\textbf{Cryogenic Requirements and Scaling:} 15 K operation requires closed-cycle cryocoolers with 150 W capacity at 15 K, commercially available from Sumitomo and Cryomech with demonstrated reliability $>8760$ hours continuous operation. Thermal load budget: joule heating (0.92 W), radiation (0.12 W), MLI leakage (0.08 W), total 1.12 W provides 134× margin vs 150 W capacity. Cryocooler efficiency degradation (15\% over 5 years) accommodated through 148.5 W effective capacity, maintaining 132× thermal safety margin.
 
 Current utilization of 30\% ensures safe operation:
 \begin{equation}
@@ -210,12 +211,12 @@ Post-reinforcement stress: $\sigma_{\text{reinforced}} = 35.0$ MPa (exactly at R
 \textbf{Parameter} & \textbf{Baseline} & \textbf{High-Field} & \textbf{Target} \\
 \hline
 Field Strength (T) & 2.1 & 7.07 & 5-10 \\
-Field Ripple (\%) & 0.01 & 0.16 & <1.0 \\
-Thermal Margin (K) & 70 & 74.5 & >20 \\
-Current Utilization & 0.5 & 0.30 & <0.5 \\
-Stress (Reinforced, MPa) & 28 & 35.0 & <35 \\
+Field Ripple (\%) & 0.01 & 0.16 & $<1.0$ \\
+Thermal Margin (K) & 70 & 74.5 & $>20$ \\
+Current Utilization & 0.5 & 0.30 & $<0.5$ \\
+Stress (Reinforced, MPa) & 28 & 35.0 & $<35$ \\
 Tapes per Turn & 20 & 89 & - \\
-Engineering Feasible & ✅ & ✅ & ✅ \\
+Engineering Feasible & \checkmark & \checkmark & \checkmark \\
 \hline
 \end{tabular}
 \label{tab:comparison}
@@ -241,7 +242,7 @@ The unified framework enables researchers to leverage available computational re
 
 \subsection{AC Loss and Sensitivity Analysis}
 
-AC loss modeling reveals static operation has negligible losses ($<0.001 W$), while 1 mHz ripple generates 92 W loss using established Norris elliptical model~\cite{norris1970} and Brandt thin-strip model~\cite{brandt1995}, validated against experimental HTS measurements. These results align with prior AC loss studies in high-field applications~\cite{zhai2020}, confirming thermal incompatibility. Monte Carlo sensitivity analysis following standard uncertainty quantification methods~\cite{iwasa2022} (1000 samples) shows only 0.2\% feasibility under tight constraints, with critical parameters including $J_c$ (300±50 A/mm$^2$) and tape thickness (0.1±0.02 mm) based on manufacturer specifications~\cite{superpower2023}.
+AC loss modeling reveals static operation has negligible losses ($<0.001 W$), while 1 mHz ripple generates 92 W loss using established Norris elliptical model~\cite{norris1970} and Brandt thin-strip model~\cite{brandt1995}, validated against experimental HTS measurements. These results align with prior AC loss studies in high-field applications~\cite{zhai2020}, confirming thermal incompatibility. Monte Carlo sensitivity analysis following standard uncertainty quantification methods~\cite{iwasa2022} (1000 samples) shows only 0.2\% feasibility under tight constraints, with critical parameters including $J_c$ (300±50 MA/m$^2$) and tape thickness (0.1±0.02 mm) based on manufacturer specifications~\cite{superpower2023}.
 
 \section{Discussion}
 
@@ -255,7 +256,7 @@ The high-field novelty provides transformative advantages: (1) 7.07 T achievemen
 
 \textbf{Quantitative Improvements Over Prior Work:} (1) \textbf{Feasibility enhancement}: Monte Carlo analysis demonstrates 40\% improvement in design space feasibility (0.2\% vs 0.05\%) compared to sequential single-domain optimization due to constraint coupling recognition. (2) \textbf{Thermal modeling advancement}: Space-qualified thermal analysis with 15\% uncertainty bounds (vs 50\% typical for simplified models) through comprehensive heat load breakdown: radiation (12\%), MLI leakage (8\%), joule heating (80\%), validated against three independent literature sources. (3) \textbf{Stress prediction accuracy}: FEA-validated approach reduces stress modeling uncertainty from ±50\% to ±25\% through proper Maxwell stress tensor implementation, enabling operation at 95\% of mechanical limits vs 60\% for conservative approaches.
 
-Quantitative framework advantages for high-field operation: (1) 2× confinement time improvement ($\tau \propto B^2/\nabla B$ gives $(7.07/2.1)^2 × (0.01\%/0.16\%) = 71\times$ raw improvement, practically limited to 2× by system-level factors), (2) manufacturing-aware high-field optimization yields 30\% current utilization vs. impossible >50\% for traditional approaches, and (3) validated thermal margins (74.5 K) provide 3.7× safety factor enabling robust space-based operation unprecedented for 7+ T systems.
+Quantitative framework advantages for high-field operation: (1) 2× confinement time improvement ($\tau \propto B^2/\nabla B$ gives $(7.07/2.1)^2 \cdot (0.01\%/0.16\%) = 71\times$ raw improvement, practically limited to 2× by system-level factors), (2) manufacturing-aware high-field optimization yields 30\% current utilization vs. impossible $>50\%$ for traditional approaches, and (3) validated thermal margins (74.5 K) provide 3.7× safety factor enabling robust space-based operation unprecedented for 7+ T systems.
 
 \subsection{Technological Impact and High-Field Applications}
 
@@ -273,7 +274,7 @@ The transition from baseline (2.1 T) to high-field (7.07 T) operation unlocks tr
 
 **Materials Processing and Crystal Growth**: High-field gradient control enables Bridgman crystal growth with 10× reduced convection ($F \propto B \nabla B$), producing semiconductor wafers with 5× fewer defects for 20\% photovoltaic efficiency improvements. Magnetic levitation materials processing eliminates container contamination, enabling ultra-pure metallic glass formation for aerospace applications with \$500M/year market potential.
 
-**Space-Based Scientific Applications**: Framework enables space-qualified superconducting magnets for particle detection (cosmic ray spectroscopy requiring 5-10 T), Earth magnetosphere studies (precision field mapping), and fundamental physics experiments. 74.5 K thermal margins provide 3.7× safety factor for space environments where repair is impossible, enabling 15-year mission durations with <1\% failure probability.
+**Space-Based Scientific Applications**: Framework enables space-qualified superconducting magnets for particle detection (cosmic ray spectroscopy requiring 5-10 T), Earth magnetosphere studies (precision field mapping), and fundamental physics experiments. 74.5 K thermal margins provide 3.7× safety factor for space environments where repair is impossible, enabling 15-year mission durations with $<1\%$ failure probability.
 
 **Industrial Magnetic Separation**: 7.07 T fields enable efficient separation of diamagnetic materials (graphite, plastics) for recycling applications, improving separation efficiency from 60\% to 95\% for mixed waste streams. Rare earth element recovery from electronic waste achieves 8× concentration factors vs conventional methods, addressing supply chain vulnerabilities worth \$12B annually.
 
@@ -287,7 +288,7 @@ The transition from baseline (2.1 T) to high-field (7.07 T) operation unlocks tr
 \item \textbf{Multi-domain economic impact}: Fusion (11.3× magnetic pressure), MRI (3.4× SNR, \$1.2B/year healthcare savings), accelerators (\$2.1B construction savings), quantum computing (1000+ qubit scaling), NMR (\$2.8B/year pharmaceutical acceleration), materials processing (\$500M/year aerospace applications)
 \item \textbf{Operational economics}: 10-year total cost of ownership \$2.8M (7.07 T) vs \$23.4M (NbTi equivalent), yielding \$20.6M savings and 2.1-year payback period across all applications
 \item \textbf{Technology readiness scaling}: Framework supports incremental field scaling (3-10 T) enabling staged deployment: 3-5 T for immediate MRI/NMR applications, 5-7 T for fusion trim coils, 7-10 T for next-generation accelerators and quantum systems
-\item \textbf{Market threshold analysis}: Break-even occurs at 4.2 T field requirements; applications >5 T strongly favor HTS approach with 5× lifecycle cost advantage and eliminated helium infrastructure dependencies
+\item \textbf{Market threshold analysis}: Break-even occurs at 4.2 T field requirements; applications $>5 T$ strongly favor HTS approach with 5× lifecycle cost advantage and eliminated helium infrastructure dependencies
 \item \textbf{Risk mitigation quantification}: 74.5 K thermal margins reduce cryogenic failure probability from 1:10$^4$ hours (helium systems) to 1:10$^6$ hours (HTS), eliminating \$2.3M/year expected downtime costs while enabling space deployment impossible with conventional approaches
 \end{itemize}
 
@@ -309,7 +310,7 @@ For fusion applications~\cite{sparc2020}, the design enables cost-effective stel
 
 \subsection{Design Limitations and Scaling}
 
-The 0.2\% feasibility rate in Monte Carlo analysis indicates tight manufacturing tolerances~\cite{deissler2014}, particularly for tape thickness (±0.02~mm) and critical current uniformity (±50~A/mm$^2$). This necessitates either relaxed specifications or improved quality control.
+The 0.2\% feasibility rate in Monte Carlo analysis indicates tight manufacturing tolerances~\cite{deissler2014}, particularly for tape thickness (±0.02~mm) and critical current uniformity (±50~MA/m$^2$). This necessitates either relaxed specifications or improved quality control.
 
 Field strength scales with $B_{\max} = \mu_0 NI/(2R)$ constrained by $J_c(B)$ derating~\cite{zhai2020}. Our 7.07 T achievement represents significant progress toward the record 32 T continuous field~\cite{zhai2020} and 45.5 T pulsed field~\cite{hahn2019}, providing a validated pathway for intermediate high-field applications. The 89-tape design directly scales proven concepts from these record systems while maintaining engineering practicality for fusion and antimatter applications requiring 5-10 T operation.
 
@@ -332,7 +333,7 @@ Thermal model sensitivity analysis validates the 0.5 K/W resistance assumption t
 
 \textbf{Physical Basis and Sensitivity Bounds:} The 0.5 K/W value reflects combined contributions: tape-to-tape thermal interfaces (0.2 K/W), insulation barriers (0.2 K/W), and radiation coupling (0.1 K/W). Temperature sensitivity analysis reveals: ±10\% variation in thermal resistance produces ±4.2 K change in operating temperature, well within 74.5 K margin; ±20\% emissivity variation affects total thermal load by 12\% but changes margin by only ±8.9 K; surface area uncertainties (±20\% from manufacturing tolerances) produce ±15\% thermal rise variation, equivalent to ±7.1 K margin variation.
 
-\textbf{Model Limitations and 1D Approximation:} The 1D thermal model neglects radial temperature gradients, which 3D finite element analysis suggests contribute <5\% error for conductor aspect ratios >10:1 (our geometry: 16:1). Convective heat transfer is neglected in vacuum, appropriate for space applications but potentially underestimating terrestrial cooling by 2-8\%. Transient effects during current ramping are neglected, valid for ramping rates <100 A/s based on time constant analysis ($\tau_{thermal} = C/G \approx 45$ s for our geometry).
+\textbf{Model Limitations and 1D Approximation:} The 1D thermal model neglects radial temperature gradients, which 3D finite element analysis suggests contribute $<5\%$ error for conductor aspect ratios $>10:1$ (our geometry: 16:1). Convective heat transfer is neglected in vacuum, appropriate for space applications but potentially underestimating terrestrial cooling by 2-8\%. Transient effects during current ramping are neglected, valid for ramping rates $<100$ A/s based on time constant analysis ($\tau_{thermal} = C/G \approx 45$ s for our geometry).
 
 Quantitative assumption impacts: assuming uniform current density with a typical manufacturing variation of \textpm10\% leads to corresponding changes in field ripple. Error propagation was evaluated as
 \begin{equation}
@@ -361,7 +362,7 @@ Multi-backend FEA support enables cross-validation: COMSOL Multiphysics, FEniCSx
 
 \textbf{Raw Data Archival and Documentation:} Complete simulation datasets archived at Zenodo DOI:10.5281/zenodo.17033655 including: (1) 2.1 T baseline configuration (field maps, stress tensors, thermal profiles), (2) 7.07 T high-field results (89-tape conductor analysis, multi-physics coupling), (3) Monte Carlo sensitivity data (1000 samples, parameter uncertainties), (4) FEA validation benchmarks (COMSOL vs FEniCSx comparison). Data format: HDF5 with Python/MATLAB/Mathematica import scripts.
 
-\textbf{Code Documentation and Assumptions:} All model assumptions documented in code comments: uniform current density (±10\% manufacturing), linear elasticity (σ<200 MPa), steady-state thermal (τ>10s), Kim critical current model parameters. Function-level documentation covers mathematical implementations: Biot-Savart discretization (720 points), Maxwell stress tensor, radiation heat transfer. Uncertainty propagation implemented throughout with explicit error bars on all simulation outputs.
+\textbf{Code Documentation and Assumptions:} All model assumptions documented in code comments: uniform current density (±10\% manufacturing), linear elasticity ($\sigma<200$ MPa), steady-state thermal ($\tau>10$s), Kim critical current model parameters. Function-level documentation covers mathematical implementations: Biot-Savart discretization (720 points), Maxwell stress tensor, radiation heat transfer. Uncertainty propagation implemented throughout with explicit error bars on all simulation outputs.
 
 Runtime specifications (Intel i7-10700K, 32 GB): electromagnetic optimization 1.2~min, Monte Carlo analysis 4.7~min, FEA stress analysis 0.8~min (FEniCSx) / 2.3~min (COMSOL). Total pipeline: 6.9~min with 92\% parallel efficiency (OpenMP). Memory peak: 1.8~GB. GPU acceleration optional (CUDA 11.8) reduces runtime by 3.2× for field calculations. ARM64 compatibility verified (Apple M1/M2, AWS Graviton3).
 

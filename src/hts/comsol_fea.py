@@ -359,6 +359,10 @@ public class HTSCoilStressAnalysis {{
         success : bool
             True if analysis completed successfully
         """
+        import logging
+        logging.basicConfig(level=logging.DEBUG)
+        logger = logging.getLogger(__name__)
+        
         try:
             # Compile and run COMSOL batch job
             cmd = [
@@ -369,6 +373,7 @@ public class HTSCoilStressAnalysis {{
             ]
             
             print(f"Running COMSOL batch analysis...")
+            logger.debug(f'COMSOL command: {" ".join(cmd)}')
             print(f"Command: {' '.join(cmd)}")
             
             result = subprocess.run(
@@ -378,6 +383,10 @@ public class HTSCoilStressAnalysis {{
                 timeout=self.server_config.timeout,
                 cwd=java_file.parent
             )
+            
+            logger.debug(f'COMSOL return code: {result.returncode}')
+            logger.debug(f'COMSOL stdout: {result.stdout}')
+            logger.debug(f'COMSOL stderr: {result.stderr}')
             
             if result.returncode == 0:
                 print("✅ COMSOL analysis completed successfully")
@@ -389,9 +398,11 @@ public class HTSCoilStressAnalysis {{
                 return False
                 
         except subprocess.TimeoutExpired:
+            logger.error(f"COMSOL analysis timed out after {self.server_config.timeout}s")
             print(f"❌ COMSOL analysis timed out after {self.server_config.timeout}s")
             return False
         except Exception as e:
+            logger.error(f"Error running COMSOL analysis: {e}")
             print(f"❌ Error running COMSOL analysis: {e}")
             return False
     
