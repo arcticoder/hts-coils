@@ -61,6 +61,31 @@ python scripts/realistic_optimization.py
 python scripts/generate_ieee_figures.py
 ```
 
+### Reproducing High-Field Results (7.07 T)
+
+```bash
+# Run complete high-field simulation
+python run_high_field_simulation.py --verbose --output results/high_field_7T.json
+
+# With COMSOL validation (requires COMSOL installation)
+python run_high_field_simulation.py --validate-comsol --verbose
+```
+
+### Docker Support
+
+For reproducible execution with exact dependencies:
+
+```bash
+# Build Docker image
+docker build -t hts-coils .
+
+# Run high-field simulation in container
+docker run -v $(pwd)/results:/workspace/results hts-coils python run_high_field_simulation.py --verbose
+
+# Interactive development
+docker run -it -v $(pwd):/workspace hts-coils bash
+```
+
 ### Make Targets
 
 ```bash
