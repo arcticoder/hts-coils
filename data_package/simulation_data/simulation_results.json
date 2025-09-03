@@ -1,0 +1,43 @@
+{
+  "high_field_configuration": {
+    "parameters": {
+      "N_turns": 1000,
+      "I_current_A": 1800,
+      "R_coil_m": 0.16,
+      "T_operating_K": 15
+    },
+    "results": {
+      "B_magnitude_T": 7.0685834705770665,
+      "field_ripple": 0.0015625,
+      "current_utilization": 0.29697836230352226,
+      "tapes_per_turn": 89,
+      "thermal_margin_K": 74.53940281406095,
+      "heat_load_W": 0.9211943718780902,
+      "space_feasible": true
+    }
+  },
+  "baseline_configuration": {
+    "parameters": {
+      "N_turns": 400,
+      "I_current_A": 1171,
+      "R_coil_m": 0.2,
+      "T_operating_K": 20
+    },
+    "results": {
+      "B_magnitude_T": 2.1,
+      "field_ripple": 0.0001,
+      "current_utilization": 0.25,
+      "thermal_margin_K": 70
+    }
+  },
+  "metadata": {
+    "generated_date": "2025-09-02 20:26:53",
+    "software_versions": {
+      "python": "3.11+",
+      "numpy": "1.24+",
+      "scipy": "1.10+"
+    },
+    "validation_status": "Validated against test_high_field_simple.py",
+    "reproducibility": "Docker container available"
+  }
+}
