@@ -347,14 +347,16 @@ which yields approximately 30\% total uncertainty dominated by $J_c$ variations 
 
 All simulations employ deterministic parameters with specifications: Python 3.11, NumPy 1.24, SciPy 1.10. Complete source code is available at \url{https://github.com/arcticoder/hts-coils} with comprehensive reproduction documentation.
 
-\textbf{High-Field (7.07 T) Results Reproduction:} Explicit command sequence for reproducing all 7.07 T results:
+			\textbf{High-Field (7.07 T) Results Reproduction:} Explicit command sequence for reproducing all 7.07 T results:
+{\scriptsize\raggedright
 \begin{enumerate}
-\item \texttt{git clone https://github.com/arcticoder/hts-coils.git \&\& cd hts-coils}
-\item \texttt{python scripts/high\_field\_optimization.py --target-field 7.07 --max-tapes 100 --operating-temp 15 --output results/high\_field\_7T.json}
-\item \texttt{python scripts/thermal\_analysis.py --config results/high\_field\_7T.json --validate-margins --output results/thermal\_7T.json}
-\item \texttt{python scripts/stress\_analysis.py --input results/high\_field\_7T.json --fea-backend auto --validate --output results/stress\_7T.json}
-\item \texttt{python scripts/generate\_figures.py --results results/ --figures Figure1,Figure2 --output figures/}
+\item \begin{minipage}[t]{\columnwidth}\ttfamily\detokenize{git clone https://github.com/arcticoder/hts-coils.git && cd hts-coils}\end{minipage}
+\item \begin{minipage}[t]{\columnwidth}\ttfamily\detokenize{python scripts/high_field_optimization.py --target-field 7.07 --max-tapes 100 --operating-temp 15 --output results/high_field_7T.json}\end{minipage}
+\item \begin{minipage}[t]{\columnwidth}\ttfamily\detokenize{python scripts/thermal_analysis.py --config results/high_field_7T.json --validate-margins --output results/thermal_7T.json}\end{minipage}
+\item \begin{minipage}[t]{\columnwidth}\ttfamily\detokenize{python scripts/stress_analysis.py --input results/high_field_7T.json --fea-backend auto --validate --output results/stress_7T.json}\end{minipage}
+\item \begin{minipage}[t]{\columnwidth}\ttfamily\detokenize{python scripts/generate_figures.py --results results/ --figures Figure1,Figure2 --output figures/}\end{minipage}
 \end{enumerate}
+}
 
 Expected output validation: B = 7.07 ± 0.01 T, ripple = 0.16 ± 0.01\%, thermal margin = 74.5 ± 1.5 K, stress = 35.0 ± 0.8 MPa, runtime = 6.9 ± 0.3 min.
 
