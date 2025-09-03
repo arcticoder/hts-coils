@@ -1,0 +1,88 @@
+{
+  "field_scaling": {
+    "B_magnitude": 7.0685834705770665,
+    "B_z": 7.0685834705770665,
+    "ripple": 0.0015625,
+    "J_c": 85127073.50229959,
+    "I_max": 6061.047633363731,
+    "current_utilization": 0.29697836230352226,
+    "field_feasible": true,
+    "thermal_feasible": true,
+    "temperature": 15,
+    "tapes_per_turn": 89,
+    "effective_thickness": 0.0178,
+    "I_max_single_tape": 68.10165880183968
+  },
+  "thermal_analysis": {
+    "thermal_margin_K": 74.53940281406095,
+    "T_c": 90.0,
+    "T_final": 15.460597185939045,
+    "heat_load_W": 0.9211943718780902,
+    "Q_rad_W": 0.0011943718780901627,
+    "Q_AC_W": 0.92,
+    "surface_area_m2": 4.182088140458733,
+    "space_feasible": true,
+    "cryocooler_adequate": true,
+    "cryocooler_margin_W": 149.0788056281219
+  },
+  "parameter_validation": {
+    "parameters": {
+      "I": 1800,
+      "N": 1000,
+      "R": 0.16,
+      "T": 15,
+      "B_target": 7.0
+    },
+    "field_analysis": {
+      "B_magnitude": 7.0685834705770665,
+      "B_z": 7.0685834705770665,
+      "ripple": 0.0015625,
+      "J_c": 85127073.50229959,
+      "I_max": 6061.047633363731,
+      "current_utilization": 0.29697836230352226,
+      "field_feasible": true,
+      "thermal_feasible": true,
+      "temperature": 15,
+      "tapes_per_turn": 89,
+      "effective_thickness": 0.0178,
+      "I_max_single_tape": 68.10165880183968
+    },
+    "thermal_analysis": {
+      "thermal_margin_K": 74.53940281406095,
+      "T_c": 90.0,
+      "T_final": 15.460597185939045,
+      "heat_load_W": 0.9211943718780902,
+      "Q_rad_W": 0.0011943718780901627,
+      "Q_AC_W": 0.92,
+      "surface_area_m2": 4.182088140458733,
+      "space_feasible": true,
+      "cryocooler_adequate": true,
+      "cryocooler_margin_W": 149.0788056281219
+    },
+    "hoop_stress_unreinforced_Pa": 178700143.91908392,
+    "hoop_stress_unreinforced_MPa": 178.70014391908393,
+    "hoop_stress_reinforced_Pa": 35000000.0,
+    "hoop_stress_reinforced_MPa": 35.0,
+    "reinforcement_factor": 5.105718397688112,
+    "rebco_stress_limit_Pa": 35000000.0,
+    "rebco_stress_limit_MPa": 35.0,
+    "parameters_valid": true,
+    "achieved_field_T": 7.0685834705770665,
+    "thermal_margin_K": 74.53940281406095,
+    "current_utilization": 0.29697836230352226
+  },
+  "summary": {
+    "field_target_T": [
+      5.0,
+      10.0
+    ],
+    "field_achieved_T": 7.0685834705770665,
+    "thermal_margin_target_K": 20.0,
+    "thermal_margin_achieved_K": 74.53940281406095,
+    "current_utilization_limit": 0.5,
+    "current_utilization_achieved": 0.29697836230352226,
+    "stress_limit_MPa": 35.0,
+    "stress_achieved_MPa": 35.0,
+    "all_targets_met": true
+  }
+}
