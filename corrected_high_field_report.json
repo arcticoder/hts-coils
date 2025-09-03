@@ -1,0 +1,40 @@
+{
+  "configuration": {
+    "I_A": 1800,
+    "N_turns": 1000,
+    "R_m": 0.16,
+    "T_K": 15
+  },
+  "electromagnetic": {
+    "B_field_T": 7.0685834705770665,
+    "ripple_percent": 0.15625,
+    "current_utilization": 0.29697836230352226,
+    "Jc_MA_per_m2": 85.1270735022996,
+    "tapes_per_turn": 89
+  },
+  "thermal": {
+    "thermal_margin_K": 74.53940281406095,
+    "final_temperature_K": 15.460597185939045,
+    "heat_load_W": 0.9211943718780902,
+    "cryocooler_margin_W": 149.0788056281219
+  },
+  "mechanical": {
+    "hoop_stress_unreinforced_MPa": 178.70014391908393,
+    "hoop_stress_reinforced_MPa": 35.0,
+    "reinforcement_factor": 5.105718397688112
+  },
+  "feasibility": {
+    "field_feasible": true,
+    "thermal_feasible": true,
+    "stress_feasible": true,
+    "overall_feasible": true
+  },
+  "comparison_to_original": {
+    "target_field_T": 5.0,
+    "achieved_vs_target": 1.4137166941154133,
+    "thermal_margin_improvement": "Fixed from 0 K to 74.5 K",
+    "current_utilization_improvement": "Fixed from 247.82 to 0.30",
+    "stress_feasible_improvement": "Achieved <35 MPa reinforced"
+  },
+  "timestamp": "2025-09-02T19:08:41.689368"
+}
