@@ -1,0 +1,159 @@
+# Figures for Soliton Validation Framework Preprint
+
+This document describes the figures and visualizations needed for the preprint submission.
+
+## Figure 1: Integrated Framework Architecture
+**Type**: System diagram  
+**Description**: Comprehensive overview showing integration of all five subsystems:
+- Energy optimization core (warp-bubble-optimizer)
+- HTS magnetic confinement system
+- Plasma simulation engine
+- Interferometric detection
+- Validation and safety systems
+
+**Key Elements**:
+- Data flow between subsystems
+- Control interfaces and feedback loops
+- Safety monitoring and abort pathways
+- Performance metrics and validation points
+
+## Figure 2: Energy Optimization Results
+**Type**: Multi-panel performance plot  
+**Description**: Demonstration of 40% energy efficiency improvements
+
+**Panel A**: Energy reduction comparison (before/after optimization)
+**Panel B**: Power budget timeline showing 30-second temporal smearing
+**Panel C**: Battery efficiency vs C-rate with η = η₀ - k×C_rate model
+**Panel D**: Envelope fitting results with L2 norm error <0.05
+
+## Figure 3: HTS Magnetic Confinement Validation
+**Type**: Magnetic field visualization and performance data  
+**Description**: Validation of 7.07 T field generation with 0.16% ripple
+
+**Panel A**: 3D magnetic field visualization showing toroidal configuration
+**Panel B**: Field strength vs radius with ripple analysis
+**Panel C**: Thermal stability data at 74.5 K operational margins
+**Panel D**: Power requirements and current distribution optimization
+
+## Figure 4: Plasma Simulation Results
+**Type**: Simulation screenshots and stability analysis  
+**Description**: Comprehensive plasma physics validation
+
+**Panel A**: 3D plasma density distribution in HTS magnetic confinement
+**Panel B**: Soliton stability timeline showing >0.1 ms duration
+**Panel C**: Temperature and density parameter space exploration
+**Panel D**: UQ validation with energy_cv < 0.05 convergence
+
+## Figure 5: Interferometric Detection Validation
+**Type**: Detection sensitivity and SNR analysis  
+**Description**: Demonstration of >10^-18 m displacement sensitivity
+
+**Panel A**: Spacetime ray tracing through Lentz metric
+**Panel B**: Michelson interferometer response simulation
+**Panel C**: SNR performance showing 171.2 achievement
+**Panel D**: Noise characterization (shot, thermal, quantum)
+
+## Figure 6: Experimental Protocol Overview
+**Type**: Laboratory setup schematic  
+**Description**: Complete experimental configuration
+
+**Key Elements**:
+- Vacuum chamber with plasma generation
+- HTS coil positioning and field lines
+- Interferometer beam paths and detection
+- Safety systems and monitoring equipment
+- Control interfaces and data acquisition
+
+## Figure 7: Safety and Risk Assessment Matrix
+**Type**: Risk matrix and safety protocol flowchart  
+**Description**: Comprehensive safety framework
+
+**Panel A**: Risk assessment matrix (probability vs impact)
+**Panel B**: Safety protocol flowchart with decision points
+**Panel C**: Emergency response procedures timeline
+**Panel D**: Personnel safety zones and access control
+
+## Supplementary Figures
+
+### S1: Detailed Energy Optimization Algorithms
+- Optimization algorithm flowcharts
+- Performance convergence plots
+- Parameter sensitivity analysis
+- Computational performance benchmarks
+
+### S2: HTS Coil Design Specifications
+- Multi-tape REBCO configuration details
+- Thermal analysis and cooling requirements
+- Mechanical stress analysis under operation
+- Power electronics control system diagrams
+
+### S3: Plasma Physics Validation
+- PIC/MHD simulation validation against analytical solutions
+- Boundary condition implementation and validation
+- Diagnostic integration and real-time monitoring
+- Parameter space exploration results
+
+### S4: Interferometric System Details
+- Optical layout and beam path optimization
+- Laser stability and frequency control systems
+- Vibration isolation and environmental control
+- Data acquisition and signal processing chains
+
+### S5: Validation and Traceability Framework
+- V&V coverage matrix visualization
+- Traceability matrix linking requirements to validation
+- UQ pipeline flowchart and statistical analysis
+- Reproducibility protocols and documentation standards
+
+## Figure Generation Notes
+
+### Data Sources
+- Energy optimization: warp-bubble-optimizer simulation results
+- HTS validation: Multi-tape REBCO performance data from preprint
+- Plasma simulation: Comprehensive PIC/MHD validation runs
+- Interferometry: Detection sensitivity analysis and SNR calculations
+- Safety assessment: Risk analysis and protocol validation
+
+### Visualization Tools
+- **3D Visualizations**: Matplotlib/Mayavi for magnetic fields and plasma
+- **Performance Plots**: Matplotlib with publication-quality formatting
+- **Schematic Diagrams**: Professional technical illustration software
+- **Data Analysis**: Comprehensive statistical analysis and uncertainty bars
+
+### Quality Standards
+- **Resolution**: 300 DPI minimum for all figures
+- **Formatting**: IEEE/APS journal standards compliance
+- **Color Schemes**: Colorblind-friendly palettes
+- **Documentation**: Complete figure captions with methodology details
+
+## Timeline for Figure Generation
+
+### Week 1 (September 4-11, 2025)
+- Generate system architecture diagrams
+- Create energy optimization performance plots
+- Produce HTS magnetic field visualizations
+
+### Week 2 (September 11-18, 2025)
+- Complete plasma simulation result figures
+- Generate interferometric detection analysis plots
+- Create experimental protocol schematics
+
+### Week 3 (September 18-25, 2025)
+- Finalize safety and risk assessment visualizations
+- Generate all supplementary figures
+- Quality review and formatting standardization
+
+### Week 4 (September 25-October 2, 2025)
+- Final figure review and revision
+- Integration with manuscript text
+- Preparation for submission package
+
+## Submission Package
+
+The complete figure package will include:
+- High-resolution figures in multiple formats (PDF, PNG, EPS)
+- Source data files for reproducibility
+- Figure generation scripts and documentation
+- Comprehensive figure captions and methodology descriptions
+
+All figures will be deposited in the Zenodo repository alongside the manuscript for open access and reproducibility.
