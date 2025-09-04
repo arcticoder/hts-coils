@@ -117,6 +117,33 @@ Our validated optimization framework demonstrates:
 - **Thermal Modeling**: ±15% uncertainty from property variations
 - Thermal modeling: ±15% uncertainty from property variations
 
+## Warp Soliton Research
+
+This repository now includes preliminary work on Lentz hyperfast solitons, building on HTS coil optimizations. The research explores the theoretical foundations of Alcubierre-type spacetime metrics and their potential realization through advanced electromagnetic field configurations.
+
+### Research Scope
+
+Our warp soliton research investigates:
+- **Plasma Confinement**: High-precision magnetic field requirements for exotic plasma states
+- **Field Enhancement**: Scaling HTS coil designs beyond 7.07 T for soliton applications  
+- **Hyperfast Dynamics**: Integration of relativistic plasma physics with superconducting field control
+- **Experimental Pathways**: Feasibility studies for laboratory-scale warp field demonstrations
+
+### Current Tasks
+
+See `docs/warp/WARP-SOLITONS-TODO.ndjson` for comprehensive task tracking including:
+- Literature review of Lentz soliton formalism and Van Den Broeck spacetime metrics
+- Plasma simulation development using established electromagnetic modeling
+- Integration with existing HTS coil optimization framework
+- Experimental design for proof-of-concept demonstrations
+- Interferometry requirements for spacetime distortion measurement
+
+### Future Development
+
+The warp soliton codebase will be developed in `src/warp/` for plasma simulation code. If this research generates significant code and datasets, it may be migrated to a dedicated `warp-solitons` repository while maintaining integration with the HTS coil infrastructure developed here.
+
+**Timeline**: September 10 – October 30, 2025 for initial research phase.
+
 ## Usage Examples
 
 ### Electromagnetic Field Analysis
