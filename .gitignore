@@ -37,12 +37,12 @@ share/python-wheels/
 tools/fenced_unsaved.md
 tools/fenced_outputs/
 
-papers/*.aux
-papers/*.out
-papers/*.log
-papers/*.pdf
-papers/*.bbl
-papers/*.blg
+papers/**/*.aux
+papers/**/*.out
+papers/**/*.log
+papers/**/*.pdf
+papers/**/*.bbl
+papers/**/*.blg
 
 papers/author_config.tex
 

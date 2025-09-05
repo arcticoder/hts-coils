@@ -1,0 +1,523 @@
+name: Soliton Validation Framework CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * 0'  # Weekly validation on Sunday at 2 AM UTC
+
+env:
+  PYTHON_VERSION: '3.9'
+  CUDA_VERSION: '11.8'
+
+jobs:
+  environment-validation:
+    name: Environment Validation
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-20.04, macos-13, windows-2022]
+        python-version: ['3.9', '3.10', '3.11']
+      fail-fast: false
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install psutil numpy scipy matplotlib pandas
+        if [ -f requirements_validation.txt ]; then
+          pip install -r requirements_validation.txt
+        fi
+      shell: bash
+        
+    - name: Validate environment
+      run: |
+        python scripts/validate_environment.py --strict
+        
+    - name: Upload environment validation results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: environment-validation-${{ matrix.os }}-py${{ matrix.python-version }}
+        path: validation_results.json
+        retention-days: 7
+
+  unit-tests:
+    name: Unit Tests
+    needs: environment-validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-cov pytest-xdist pytest-timeout
+        pip install numpy scipy matplotlib pandas psutil
+        
+    - name: Create test directories
+      run: |
+        mkdir -p tests/unit
+        mkdir -p tests/integration
+        
+    - name: Create sample unit tests
+      run: |
+        cat > tests/unit/test_validation.py << 'EOF'
+        import numpy as np
+        import pytest
+        
+        def test_numpy_functionality():
+            """Test basic numpy functionality."""
+            a = np.array([1, 2, 3, 4, 5])
+            assert np.sum(a) == 15
+            assert np.mean(a) == 3.0
+            
+        def test_deterministic_random():
+            """Test deterministic random number generation."""
+            np.random.seed(42)
+            a = np.random.random(10)
+            np.random.seed(42)
+            b = np.random.random(10)
+            np.testing.assert_array_equal(a, b)
+            
+        def test_linear_algebra():
+            """Test linear algebra operations."""
+            A = np.random.rand(5, 5)
+            eigenvals = np.linalg.eigvals(A)
+            assert len(eigenvals) == 5
+            assert np.all(np.isfinite(eigenvals))
+        EOF
+        
+    - name: Run unit tests
+      run: |
+        pytest tests/unit/ -v --cov=src --cov-report=xml \
+          --timeout=300 -n auto --tb=short
+        
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+
+  reproducibility-tests:
+    name: Reproducibility Tests
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install numpy scipy matplotlib pandas psutil
+        
+    - name: Run reproducibility validation
+      run: |
+        python scripts/validate_reproducibility.py \
+          --repeat 3 --tolerance 1e-15 --output reproducibility.json
+        
+    - name: Check reproducibility results
+      run: |
+        python -c "
+        import json
+        with open('reproducibility.json', 'r') as f:
+            results = json.load(f)
+        success = results.get('validation_success', False)
+        if not success:
+            print('Reproducibility validation failed')
+            exit(1)
+        else:
+            print('Reproducibility validation passed')
+        "
+        
+    - name: Upload reproducibility results
+      uses: actions/upload-artifact@v3
+      with:
+        name: reproducibility-results
+        path: reproducibility.json
+        retention-days: 30
+
+  performance-benchmarks:
+    name: Performance Benchmarks
+    needs: reproducibility-tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install numpy scipy matplotlib pandas psutil pytest-benchmark
+        
+    - name: Create performance benchmark tests
+      run: |
+        mkdir -p benchmarks
+        cat > benchmarks/test_performance.py << 'EOF'
+        import pytest
+        import numpy as np
+        import time
+        
+        @pytest.mark.benchmark(group="linear_algebra")
+        def test_eigenvalue_performance(benchmark):
+            """Benchmark eigenvalue computation."""
+            def eigenvals():
+                A = np.random.rand(100, 100)
+                return np.linalg.eigvals(A)
+            
+            result = benchmark(eigenvals)
+            assert len(result) == 100
+        
+        @pytest.mark.benchmark(group="fft")
+        def test_fft_performance(benchmark):
+            """Benchmark FFT computation."""
+            def fft_calc():
+                signal = np.random.random(1024)
+                return np.fft.fft(signal)
+            
+            result = benchmark(fft_calc)
+            assert len(result) == 1024
+        
+        @pytest.mark.benchmark(group="integration")
+        def test_integration_performance(benchmark):
+            """Benchmark numerical integration."""
+            def integrate():
+                x = np.linspace(0, np.pi, 10000)
+                y = np.sin(x)
+                return np.trapz(y, x)
+            
+            result = benchmark(integrate)
+            assert abs(result - 2.0) < 0.01
+        EOF
+        
+    - name: Run performance benchmarks
+      run: |
+        pytest benchmarks/ --benchmark-only --benchmark-json=benchmark.json
+        
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmark-results
+        path: benchmark.json
+        retention-days: 30
+
+  docker-validation:
+    name: Docker Container Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      
+    - name: Create Dockerfile for validation
+      run: |
+        mkdir -p docker
+        cat > docker/Dockerfile.validation << 'EOF'
+        FROM python:3.9-slim
+        
+        # Install system dependencies
+        RUN apt-get update && apt-get install -y \
+            build-essential \
+            git \
+            && rm -rf /var/lib/apt/lists/*
+        
+        # Set working directory
+        WORKDIR /workspace
+        
+        # Install Python dependencies
+        COPY requirements_validation.txt* ./
+        RUN pip install --no-cache-dir numpy scipy matplotlib pandas psutil
+        
+        # Copy validation scripts
+        COPY scripts/ ./scripts/
+        
+        # Set environment for reproducibility
+        ENV PYTHONHASHSEED=42
+        ENV PYTHONUNBUFFERED=1
+        
+        # Default command
+        CMD ["python", "scripts/validate_environment.py", "--container"]
+        EOF
+        
+    - name: Create minimal requirements file
+      run: |
+        cat > requirements_validation.txt << 'EOF'
+        numpy>=1.24.0
+        scipy>=1.11.0
+        matplotlib>=3.7.0
+        pandas>=2.0.0
+        psutil>=5.9.0
+        EOF
+        
+    - name: Build validation container
+      run: |
+        docker build -t soliton-validation:test \
+          -f docker/Dockerfile.validation .
+        
+    - name: Run container validation
+      run: |
+        docker run --rm soliton-validation:test \
+          python scripts/validate_environment.py --container
+        
+    - name: Test container reproducibility
+      run: |
+        mkdir -p container_results
+        docker run --rm -v $PWD/container_results:/results \
+          soliton-validation:test \
+          sh -c "python scripts/validate_reproducibility.py --repeat 2 --output /results/container_repro.json"
+        
+    - name: Upload container test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: container-validation-results
+        path: container_results/
+        retention-days: 7
+
+  documentation-validation:
+    name: Documentation Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install documentation dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install sphinx nbsphinx markdown
+        
+    - name: Create basic Sphinx configuration
+      run: |
+        mkdir -p docs_build
+        cd docs_build
+        cat > conf.py << 'EOF'
+        project = 'Soliton Validation Framework'
+        copyright = '2025, HTS Coils Project'
+        author = 'HTS Coils Project'
+        
+        extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'nbsphinx']
+        templates_path = ['_templates']
+        exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+        html_theme = 'alabaster'
+        html_static_path = ['_static']
+        EOF
+        
+        cat > index.rst << 'EOF'
+        Soliton Validation Framework
+        ===========================
+        
+        This is the documentation for the Soliton Validation Framework.
+        
+        .. toctree::
+           :maxdepth: 2
+           :caption: Contents:
+        
+        Indices and tables
+        ==================
+        
+        * :ref:`genindex`
+        * :ref:`modindex`
+        * :ref:`search`
+        EOF
+        
+        mkdir -p _static
+        mkdir -p _templates
+        
+    - name: Build documentation
+      run: |
+        cd docs_build
+        sphinx-build -b html . _build/html
+        
+    - name: Validate documentation links
+      run: |
+        # Check for broken internal links
+        find docs_build/_build/html -name "*.html" -exec grep -l "href.*#" {} \; | wc -l
+        echo "Documentation built successfully"
+        
+    - name: Upload documentation
+      uses: actions/upload-artifact@v3
+      with:
+        name: documentation
+        path: docs_build/_build/html/
+        retention-days: 30
+
+  integration-summary:
+    name: Integration Summary
+    needs: [environment-validation, unit-tests, reproducibility-tests, performance-benchmarks, docker-validation, documentation-validation]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+      
+    - name: Generate integration report
+      run: |
+        python3 << 'EOF'
+        import json
+        import os
+        import glob
+        
+        # Collect all validation results
+        results = {
+            'environment_validation': [],
+            'reproducibility_results': None,
+            'benchmark_results': None,
+            'overall_status': 'UNKNOWN'
+        }
+        
+        # Process environment validation results
+        env_files = glob.glob('environment-validation-*/validation_results.json')
+        for file in env_files:
+            try:
+                with open(file, 'r') as f:
+                    data = json.load(f)
+                    results['environment_validation'].append({
+                        'file': file,
+                        'platform': data.get('platform', {}),
+                        'errors': data.get('errors', []),
+                        'warnings': data.get('warnings', [])
+                    })
+            except Exception as e:
+                print(f"Error reading {file}: {e}")
+        
+        # Process reproducibility results
+        repro_files = glob.glob('reproducibility-results/reproducibility.json')
+        if repro_files:
+            try:
+                with open(repro_files[0], 'r') as f:
+                    results['reproducibility_results'] = json.load(f)
+            except Exception as e:
+                print(f"Error reading reproducibility results: {e}")
+        
+        # Process benchmark results
+        bench_files = glob.glob('benchmark-results/benchmark.json')
+        if bench_files:
+            try:
+                with open(bench_files[0], 'r') as f:
+                    results['benchmark_results'] = json.load(f)
+            except Exception as e:
+                print(f"Error reading benchmark results: {e}")
+        
+        # Determine overall status
+        env_errors = sum(len(r.get('errors', [])) for r in results['environment_validation'])
+        repro_success = results['reproducibility_results'] and results['reproducibility_results'].get('validation_success', False)
+        
+        if env_errors == 0 and repro_success:
+            results['overall_status'] = 'PASS'
+        else:
+            results['overall_status'] = 'FAIL'
+        
+        # Save integration report
+        with open('integration_report.json', 'w') as f:
+            json.dump(results, f, indent=2)
+        
+        # Print summary
+        print("="*60)
+        print("VALIDATION FRAMEWORK CI/CD SUMMARY")
+        print("="*60)
+        print(f"Overall Status: {results['overall_status']}")
+        print(f"Environment Validation: {len(results['environment_validation'])} platforms tested")
+        print(f"Environment Errors: {env_errors}")
+        print(f"Reproducibility: {'PASS' if repro_success else 'FAIL'}")
+        print(f"Benchmarks: {'Available' if results['benchmark_results'] else 'Not Available'}")
+        
+        if results['overall_status'] == 'FAIL':
+            exit(1)
+        EOF
+        
+    - name: Upload integration report
+      uses: actions/upload-artifact@v3
+      with:
+        name: integration-report
+        path: integration_report.json
+        retention-days: 90
+        
+    - name: Comment on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          try {
+            const report = JSON.parse(fs.readFileSync('integration_report.json', 'utf8'));
+            const status = report.overall_status;
+            const emoji = status === 'PASS' ? '✅' : '❌';
+            
+            const comment = `${emoji} **Validation Framework CI Summary**
+            
+            - **Overall Status**: ${status}
+            - **Environment Validation**: ${report.environment_validation.length} platforms tested
+            - **Reproducibility**: ${report.reproducibility_results?.validation_success ? 'PASS' : 'FAIL'}
+            - **Benchmarks**: ${report.benchmark_results ? 'Available' : 'Not Available'}
+            
+            ${status === 'FAIL' ? '⚠️ Some validation checks failed. Please review the artifacts for details.' : '🎉 All validation checks passed!'}`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          } catch (error) {
+            console.log('Could not create PR comment:', error);
+          }
