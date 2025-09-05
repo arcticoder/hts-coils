@@ -44,6 +44,8 @@ papers/**/*.pdf
 papers/**/*.bbl
 papers/**/*.blg
 
-papers/author_config.tex
+papers/**/author_config.tex
 
 .env
+
+docs/warp/texput.log
