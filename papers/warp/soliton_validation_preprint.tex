@@ -52,10 +52,18 @@
 
 \title{Lab-Scale Soliton Formation Using HTS Confinement and Energy Optimization: A Comprehensive Validation Framework}
 
-\author{HTS Coils Research Team\\
-Advanced Propulsion Research Laboratory}
-
-\date{September 4, 2025}
+% Optional author config: load `author_config.tex` if it exists (it may be
+% gitignored to prevent committing personal info). If the file is missing,
+% provide safe fallbacks so compilation still succeeds.
+\IfFileExists{author_config.tex}{%
+	\input{author_config.tex}%
+}{%
+	\providecommand{\authorname}{Independent Researcher}%
+	\providecommand{\authoremail}{contact@example.com}%
+}
+\author{\authorname\\\texttt{\authoremail}}
+% Freeze to the run date for archival reproducibility (printed by \maketitle)
+\date{(Dated: September 4, 2025)}
 
 \maketitle
 
