@@ -55,7 +55,7 @@ jobs:
         python scripts/validate_environment.py --strict
         
     - name: Upload environment validation results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: environment-validation-${{ matrix.os }}-py${{ matrix.python-version }}
@@ -170,7 +170,7 @@ jobs:
         "
         
     - name: Upload reproducibility results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: reproducibility-results
         path: reproducibility.json
@@ -242,7 +242,7 @@ jobs:
         pytest benchmarks/ --benchmark-only --benchmark-json=benchmark.json
         
     - name: Upload benchmark results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: benchmark-results
         path: benchmark.json
@@ -319,7 +319,7 @@ jobs:
           sh -c "python scripts/validate_reproducibility.py --repeat 2 --output /results/container_repro.json"
         
     - name: Upload container test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: container-validation-results
         path: container_results/
@@ -394,7 +394,7 @@ jobs:
         echo "Documentation built successfully"
         
     - name: Upload documentation
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: documentation
         path: docs_build/_build/html/
@@ -486,7 +486,7 @@ jobs:
         EOF
         
     - name: Upload integration report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: integration-report
         path: integration_report.json
