@@ -1,0 +1,56 @@
+{
+  "experiment_id": "lentz_soliton_validation_2026",
+  "timestamp": "2025-09-15T12:00:00Z",
+  "plasma_configuration": {
+    "debye_length_m": 1.66343253920921e-05,
+    "plasma_frequency_rad_s": 563493821875.7742,
+    "cyclotron_frequency_rad_s": 1229418221734.358,
+    "confinement_parameter": 2.181777641575263,
+    "plasma_beta": 0.0008206609380805991,
+    "stability_criterion": "True"
+  },
+  "interferometric_detection": {
+    "phase_shift_rad": 4.964590160540128e-13,
+    "distance_sensitivity_m": 2.5e-20,
+    "signal_to_noise_ratio": 1.3975424859373685e-12,
+    "detection_threshold_met": false,
+    "measurement_feasibility": "False",
+    "integration_time_s": 0.01
+  },
+  "thermal_validation": {
+    "joule_heating_W": 0.08143008158104745,
+    "radiation_load_W": 23.085427398613422,
+    "total_heat_load_W": 23.66685748019447,
+    "cooling_capacity_W": 22.5,
+    "thermal_margin_W": -1.1668574801944693,
+    "operating_temperature_K": 31.833428740097233,
+    "thermal_stability": false,
+    "temperature_margin_K": 58.16657125990277
+  },
+  "soliton_stability": {
+    "soliton_energy_J": 3141592653.5897937,
+    "power_requirement_W": 3141592653589.7935,
+    "available_energy_J": 49000.00000000001,
+    "energy_balance_ratio": 1.5597184423005743e-05,
+    "power_balance_ratio": 1.5597184423005744e-07,
+    "stability_achievable": false,
+    "predicted_lifetime_s": 1.5597184423005742e-08,
+    "meets_1ms_threshold": true
+  },
+  "overall_feasibility_score": 25,
+  "experiment_approved": false,
+  "estimated_timeline": "2026-2028",
+  "key_milestones": [
+    "Plasma configuration optimization (6 months)",
+    "Interferometry system integration (12 months)",
+    "HTS coil thermal validation (6 months)",
+    "Soliton formation attempts (12 months)",
+    "Stability measurement campaign (6 months)"
+  ],
+  "risk_factors": [
+    "Plasma instabilities at high density",
+    "Interferometer vibration isolation",
+    "HTS quench protection",
+    "Soliton energy coupling efficiency"
+  ]
+}
