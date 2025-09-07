@@ -43,6 +43,7 @@ papers/**/*.log
 papers/**/*.pdf
 papers/**/*.bbl
 papers/**/*.blg
+papers/**/*Zone.Identifier
 
 papers/**/author_config.tex
 

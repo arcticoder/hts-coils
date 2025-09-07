@@ -30,12 +30,22 @@
 \newcommand{\highlight}[1]{\textcolor{red}{\textbf{#1}}}
 \newcommand{\Jc}{J_\text{c}}
 
+% Optional author config: load `author_config.tex` if it exists (it may be
+% gitignored to prevent committing personal info). If the file is missing,
+% provide safe fallbacks so compilation still succeeds.
+\IfFileExists{author_config.tex}{%
+	\input{author_config.tex}%
+}{%
+	\providecommand{\authorname}{Independent Researcher}%
+	\providecommand{\authoremail}{contact@example.com}%
+}
+
 % Title information
 \title[REBCO HTS Coil Optimization]{REBCO HTS Coil Optimization Framework\\for Fusion and Antimatter Applications}
 \subtitle{Educational Companion to Research Paper}
-\author[Arcticoder]{Arcticoder\\HTS Coils Research Group}
-\institute[HTS Lab]{High-Temperature Superconductor Laboratory}
-\date{\today}
+\author[\authorname]{\authorname}
+\institute[Independent Researcher]{Independent Researcher}
+\date{(Dated: September 7, 2025)}
 
 \begin{document}
 
