@@ -9,7 +9,7 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{siunitx}
+%\usepackage{siunitx}  % Commented out - not available
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{hyperref}
@@ -22,11 +22,11 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[frame number]
 
-% Custom commands
-\newcommand{\Tesla}[1]{\SI{#1}{\tesla}}
-\newcommand{\Ampere}[1]{\SI{#1}{\ampere}}
-\newcommand{\Kelvin}[1]{\SI{#1}{\kelvin}}
-\newcommand{\Pascal}[1]{\SI{#1}{\pascal}}
+% Custom commands - replaced siunitx with manual formatting
+\newcommand{\Tesla}[1]{#1~T}
+\newcommand{\Ampere}[1]{#1~A}
+\newcommand{\Kelvin}[1]{#1~K}
+\newcommand{\Pascal}[1]{#1~Pa}
 \newcommand{\highlight}[1]{\textcolor{red}{\textbf{#1}}}
 \newcommand{\Jc}{J_\text{c}}
 
@@ -117,7 +117,7 @@
         
         \textbf{Typical parameters:}
         \begin{itemize}
-            \item $\Jc^0 = \SI{300e6}{\ampere\per\meter\squared}$ at self-field, \Kelvin{77}
+            \item $\Jc^0 = 300 \times 10^6~\text{A/m}^2$ at self-field, \Kelvin{77}
             \item $T_c = \Kelvin{90}$ (onset temperature)
             \item $B_0 = \Tesla{5}$, $n = 1.5$, $m = 1.5$
         \end{itemize}
@@ -127,9 +127,9 @@
     \highlight{Key Insight:} $\Jc$ decreases with both temperature and magnetic field!
     
     \begin{center}
-        Operating at \Kelvin{20} and \Tesla{7}: $\Jc \approx \SI{85}{\mega\ampere\per\meter\squared}$
+        Operating at \Kelvin{20} and \Tesla{7}: $\Jc \approx 85~\text{MA/m}^2$
     \end{center}
-</frame>
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Section 2: Multi-Constraint Optimization
@@ -206,9 +206,9 @@
             \sigma_{\text{hoop}} = \frac{B^2 R}{2 \mu_0 t}
         \end{equation}
         
-        For \Tesla{7} field, $R = \SI{0.16}{\meter}$, $t = \SI{0.01}{\meter}$:
+        For \Tesla{7} field, $R = 0.16~\text{m}$, $t = 0.01~\text{m}$:
         \begin{equation}
-            \sigma_{\text{hoop}} = \frac{(7)^2 \times 0.16}{2 \times 4\pi \times 10^{-7} \times 0.01} = \SI{178}{\mega\pascal}
+            \sigma_{\text{hoop}} = \frac{(7)^2 \times 0.16}{2 \times 4\pi \times 10^{-7} \times 0.01} = 178~\text{MPa}
         \end{equation}
     \end{block}
     
@@ -412,8 +412,8 @@
         
         \textbf{Current limitations:}
         \begin{itemize}
-            \item Magnetic trap depth: $\sim\SI{1}{\kelvin}$
-            \item Confinement time: $\sim\SI{1000}{\second}$
+            \item Magnetic trap depth: $\sim 1~\text{K}$
+            \item Confinement time: $\sim 1000~\text{s}$
             \item Limited trap volume and field uniformity
         \end{itemize}
     \end{block}
@@ -518,11 +518,11 @@
         \begin{column}{0.5\textwidth}
             \textbf{20\% Scale Demonstrator:}
             \begin{itemize}
-                \item Radius: $R = \SI{0.04}{\meter}$
+                \item Radius: $R = 0.04~\text{m}$
                 \item Current: $I = \Ampere{360}$
                 \item Turns: $N = 200$
                 \item Field: $B = \Tesla{2.9}$
-                \item Tape length: \SI{3.4}{\kilo\meter}
+                \item Tape length: 3.4~km
             \end{itemize}
             
             \vspace{0.3cm}
@@ -589,7 +589,7 @@
     \begin{block}{Problem}
         A REBCO conductor operates at \Kelvin{25} in a \Tesla{3} magnetic field.
         Calculate the critical current density using the Kim model with:
-        $\Jc^0 = \SI{300e6}{\ampere\per\meter\squared}$, $T_c = \Kelvin{90}$, $B_0 = \Tesla{5}$, $n = m = 1.5$
+        $\Jc^0 = 300 \times 10^6~\text{A/m}^2$, $T_c = \Kelvin{90}$, $B_0 = \Tesla{5}$, $n = m = 1.5$
     \end{block}
     
     \vspace{0.5cm}
@@ -602,14 +602,14 @@
     \end{enumerate}
     
     \vspace{0.3cm}
-    \textbf{Try it yourself!} What current can a \SI{4}{\milli\meter} wide tape carry?
+    \textbf{Try it yourself!} What current can a 4~mm wide tape carry?
 \end{frame}
 
 \begin{frame}{Exercise 2: Magnetic Field Design}
     \begin{block}{Problem}
         Design a single circular coil to generate \Tesla{1} at its center.
-        If the coil radius is \SI{0.1}{\meter}, how many ampere-turns are needed?
-        What if we want the field uniform to within 1\% over a \SI{1}{\centi\meter} region?
+        If the coil radius is 0.1~m, how many ampere-turns are needed?
+        What if we want the field uniform to within 1\% over a 1~cm region?
     \end{block}
     
     \vspace{0.3cm}
@@ -626,8 +626,8 @@
 
 \begin{frame}{Exercise 3: Stress Analysis}
     \begin{block}{Problem}
-        A \Tesla{5} magnetic field creates hoop stress in a coil with radius \SI{0.2}{\meter}
-        and conductor thickness \SI{5}{\milli\meter}. Calculate the stress and determine
+        A \Tesla{5} magnetic field creates hoop stress in a coil with radius 0.2~m
+        and conductor thickness 5~mm. Calculate the stress and determine
         if reinforcement is needed (REBCO limit: \Pascal{35e6}).
     \end{block}
     
