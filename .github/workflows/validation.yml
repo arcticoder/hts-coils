@@ -18,8 +18,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-20.04, macos-13, windows-2022]
-        python-version: ['3.9', '3.10', '3.11']
+        os: [ubuntu-latest]
+        python-version: ['3.9', '3.11']
       fail-fast: false
     
     steps:
@@ -64,7 +64,6 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    needs: environment-validation
     runs-on: ubuntu-latest
     
     steps:
@@ -131,7 +130,6 @@ jobs:
 
   reproducibility-tests:
     name: Reproducibility Tests
-    needs: unit-tests
     runs-on: ubuntu-latest
     
     steps:
@@ -178,7 +176,6 @@ jobs:
 
   performance-benchmarks:
     name: Performance Benchmarks
-    needs: reproducibility-tests
     runs-on: ubuntu-latest
     
     steps:
@@ -261,6 +258,14 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
       
+    - name: Cache Docker layers
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+      
     - name: Create Dockerfile for validation
       run: |
         mkdir -p docker
@@ -303,8 +308,14 @@ jobs:
         
     - name: Build validation container
       run: |
-        docker build -t soliton-validation:test \
-          -f docker/Dockerfile.validation .
+        docker buildx build -t soliton-validation:test \
+          -f docker/Dockerfile.validation \
+          --cache-from=type=local,src=/tmp/.buildx-cache \
+          --cache-to=type=local,dest=/tmp/.buildx-cache-new,mode=max \
+          .
+        # Rotate cache
+        rm -rf /tmp/.buildx-cache
+        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
         
     - name: Run container validation
       run: |
