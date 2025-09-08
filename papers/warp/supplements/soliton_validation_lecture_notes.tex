@@ -24,12 +24,22 @@
 % Custom commands
 \newcommand{\highlight}[1]{\textcolor{red}{\textbf{#1}}}
 
+% Optional author config: load `author_config.tex` if it exists (it may be
+% gitignored to prevent committing personal info). If the file is missing,
+% provide safe fallbacks so compilation still succeeds.
+\IfFileExists{author_config.tex}{%
+	\input{author_config.tex}%
+}{%
+	\providecommand{\authorname}{Independent Researcher}%
+	\providecommand{\authoremail}{contact@example.com}%
+}
+
 % Title information
 \title[Soliton Validation]{Experimental Validation of Lentz Hyperfast Solitons\\in Lab-Scale Plasma Environments}
 \subtitle{Educational Lecture Notes}
-\author[Arcticoder]{Arcticoder\\Soliton Research Group}
-\institute[Lab]{Advanced Physics Laboratory}
-\date{\today}
+\author[\authorname]{\authorname}
+\institute[Independent Researcher]{Independent Researcher}
+\date{September 7, 2025}
 
 \begin{document}
 
