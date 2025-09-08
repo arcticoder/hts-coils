@@ -1,0 +1,176 @@
+{
+  "timestamp": "2025-09-07 22:00:59",
+  "all_results": [
+    {
+      "energy_optimization": {
+        "final_energy": 1.3299931887564689,
+        "energy_history_checksum": "671ebed4b86c3318",
+        "envelope_error_checksum": "d0ed62f1874aab01",
+        "efficiency_gain": 0.4
+      },
+      "hts_integration": {
+        "field_integral": 0.3184218672933633,
+        "field_profile_checksum": "7692a6b515f823b4",
+        "field_gradient_checksum": "f711f58d779a4c1e",
+        "efficiency_factor": 0.85
+      },
+      "plasma_simulation": {
+        "energy_conservation_error": 9.011436398038935e-05,
+        "final_positions_checksum": "7b9fa711cf9a28a7",
+        "final_velocities_checksum": "ac32efe8d1646386",
+        "soliton_stability_time": 0.0
+      },
+      "interferometry": {
+        "displacement_rms": 7.06779764952066e-13,
+        "phase_shift_checksum": "4281600660578855",
+        "signal_to_noise_ratio": 508591.18359943666,
+        "measurement_precision": 1e-15
+      },
+      "metadata": {
+        "run_id": 0,
+        "elapsed_time": 24.97070598602295,
+        "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "python_version": "3.13.2 | packaged by conda-forge | (main, Feb 17 2025, 14:10:22) [GCC 13.3.0]",
+        "numpy_version": "2.3.2",
+        "random_seed": 42
+      }
+    },
+    {
+      "energy_optimization": {
+        "final_energy": 1.3299931887564689,
+        "energy_history_checksum": "671ebed4b86c3318",
+        "envelope_error_checksum": "d0ed62f1874aab01",
+        "efficiency_gain": 0.4
+      },
+      "hts_integration": {
+        "field_integral": 0.3184218672933633,
+        "field_profile_checksum": "7692a6b515f823b4",
+        "field_gradient_checksum": "f711f58d779a4c1e",
+        "efficiency_factor": 0.85
+      },
+      "plasma_simulation": {
+        "energy_conservation_error": 9.011436398038935e-05,
+        "final_positions_checksum": "7b9fa711cf9a28a7",
+        "final_velocities_checksum": "ac32efe8d1646386",
+        "soliton_stability_time": 0.0
+      },
+      "interferometry": {
+        "displacement_rms": 7.06779764952066e-13,
+        "phase_shift_checksum": "4281600660578855",
+        "signal_to_noise_ratio": 508591.18359943666,
+        "measurement_precision": 1e-15
+      },
+      "metadata": {
+        "run_id": 1,
+        "elapsed_time": 24.68548893928528,
+        "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "python_version": "3.13.2 | packaged by conda-forge | (main, Feb 17 2025, 14:10:22) [GCC 13.3.0]",
+        "numpy_version": "2.3.2",
+        "random_seed": 42
+      }
+    }
+  ],
+  "reproducibility_report": {
+    "status": "FAIL",
+    "n_runs": 2,
+    "differences": [
+      {
+        "category": "energy_optimization",
+        "issue": "checksum_mismatch",
+        "unique_values": 2
+      },
+      {
+        "category": "hts_integration",
+        "issue": "checksum_mismatch",
+        "unique_values": 2
+      },
+      {
+        "category": "plasma_simulation",
+        "issue": "checksum_mismatch",
+        "unique_values": 2
+      }
+    ],
+    "identical_checksums": false,
+    "numerical_differences": {}
+  },
+  "cross_platform_results": {
+    "linux": {
+      "energy_optimization": {
+        "final_energy": 1.3299931887564689,
+        "energy_history_checksum": "671ebed4b86c3318",
+        "envelope_error_checksum": "d0ed62f1874aab01",
+        "efficiency_gain": 0.4
+      },
+      "hts_integration": {
+        "field_integral": 0.3184218672933633,
+        "field_profile_checksum": "7692a6b515f823b4",
+        "field_gradient_checksum": "f711f58d779a4c1e",
+        "efficiency_factor": 0.85
+      },
+      "plasma_simulation": {
+        "energy_conservation_error": 9.011436398038935e-05,
+        "final_positions_checksum": "7b9fa711cf9a28a7",
+        "final_velocities_checksum": "ac32efe8d1646386",
+        "soliton_stability_time": 0.0
+      },
+      "interferometry": {
+        "displacement_rms": 7.06779764952066e-13,
+        "phase_shift_checksum": "4281600660578855",
+        "signal_to_noise_ratio": 508591.18359943666,
+        "measurement_precision": 1e-15
+      },
+      "metadata": {
+        "run_id": "linux_0",
+        "elapsed_time": 24.669970989227295,
+        "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "python_version": "3.13.2 | packaged by conda-forge | (main, Feb 17 2025, 14:10:22) [GCC 13.3.0]",
+        "numpy_version": "2.3.2",
+        "random_seed": 42
+      }
+    },
+    "docker": {
+      "energy_optimization": {
+        "final_energy": 1.3299931887564689,
+        "energy_history_checksum": "671ebed4b86c3318",
+        "envelope_error_checksum": "d0ed62f1874aab01",
+        "efficiency_gain": 0.4
+      },
+      "hts_integration": {
+        "field_integral": 0.3184218672933633,
+        "field_profile_checksum": "7692a6b515f823b4",
+        "field_gradient_checksum": "f711f58d779a4c1e",
+        "efficiency_factor": 0.85
+      },
+      "plasma_simulation": {
+        "energy_conservation_error": 9.011436398038935e-05,
+        "final_positions_checksum": "7b9fa711cf9a28a7",
+        "final_velocities_checksum": "ac32efe8d1646386",
+        "soliton_stability_time": 0.0
+      },
+      "interferometry": {
+        "displacement_rms": 7.06779764952066e-13,
+        "phase_shift_checksum": "4281600660578855",
+        "signal_to_noise_ratio": 508591.18359943666,
+        "measurement_precision": 1e-15
+      },
+      "metadata": {
+        "run_id": "docker_0",
+        "elapsed_time": 24.696504831314087,
+        "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "python_version": "3.13.2 | packaged by conda-forge | (main, Feb 17 2025, 14:10:22) [GCC 13.3.0]",
+        "numpy_version": "2.3.2",
+        "random_seed": 42
+      }
+    }
+  },
+  "consistency_report": {
+    "status": "PASS",
+    "platforms": [
+      "linux",
+      "docker"
+    ],
+    "differences": [],
+    "cross_platform_identical": true
+  },
+  "validation_success": false
+}
