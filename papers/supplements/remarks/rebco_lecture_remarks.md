@@ -1,7 +1,7 @@
 # REBCO HTS Coil Optimization Lecture Remarks
 
 ## Slide 1: Title Slide
-Welcome to this lecture on REBCO HTS coil optimization for fusion and antimatter applications. Today we'll explore cutting-edge superconducting technology and its revolutionary applications in advanced physics experiments. REBCO tape represents one of the most significant advances in superconducting materials, enabling magnetic fields previously impossible to achieve.
+Welcome to REBCO HTS coil optimization for fusion and antimatter applications. Today we'll explore how this technology enables new frontiers in plasma physics and advanced experiments. REBCO tape represents one of the most significant advances in superconducting materials, enabling magnetic fields previously impossible to achieve while operating at practical temperatures with liquid nitrogen cooling.
 
 ## Slide 2: Introduction and Overview
 High-temperature superconductors have transformed our approach to magnetic confinement. The REBCO family of materials operates at liquid nitrogen temperatures, dramatically reducing cooling costs while enabling unprecedented magnetic field strengths. This lecture will take you through the physics, engineering, and applications of these remarkable materials.
