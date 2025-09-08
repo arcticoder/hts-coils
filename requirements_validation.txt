@@ -16,8 +16,8 @@ netcdf4==1.6.4
 xarray==2023.6.0
 
 # Scientific computing acceleration
-jax==0.4.13
-jaxlib==0.4.13+cuda11.cudnn86
+jax==0.4.25
+jaxlib==0.4.25
 numba==0.57.1
 
 # Symbolic mathematics
