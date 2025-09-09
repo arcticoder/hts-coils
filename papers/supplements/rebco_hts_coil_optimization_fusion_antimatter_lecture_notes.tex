@@ -78,6 +78,31 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Learning Objectives
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Learning Objectives}
+    \begin{block}{By the end of this lecture, you will be able to:}
+        \begin{enumerate}
+            \item \textbf{Understand} the fundamental physics of high-temperature superconductors and their critical parameters
+            \item \textbf{Calculate} critical current densities for REBCO tape under specific operating conditions
+            \item \textbf{Design} basic magnetic field configurations using toroidal coil geometry
+            \item \textbf{Analyze} thermal management requirements for superconducting systems
+            \item \textbf{Evaluate} mechanical stress considerations in high-field magnet design
+            \item \textbf{Assess} real-world applications in fusion energy and antimatter research
+            \item \textbf{Apply} optimization principles to superconducting coil design challenges
+        \end{enumerate}
+    \end{block}
+    
+    \begin{alertblock}{Prerequisites}
+        \begin{itemize}
+            \item Electromagnetic theory (Maxwell equations, magnetic fields)
+            \item Basic thermodynamics and heat transfer
+            \item Elementary quantum mechanics (optional but helpful)
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Section 1: Introduction to HTS Coils
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction to High-Temperature Superconductors}
@@ -85,21 +110,29 @@
 \begin{frame}{What are High-Temperature Superconductors?}
     \begin{columns}
         \begin{column}{0.6\textwidth}
-            \textbf{Key Properties:}
+            \textbf{Conceptual Foundation:}
             \begin{itemize}
-                \item Zero electrical resistance below $T_c$
-                \item Expulsion of magnetic fields (Meissner effect)
-                \item Critical temperature $T_c > \Kelvin{77}$ (liquid N$_2$)
-                \item Critical current density $\Jc(B,T)$
+                \item Think of superconductors as "perfect conductors" below a critical temperature
+                \item Electrons form special pairs that move without scattering
+                \item Like cars on an empty highway - no traffic jams!
             \end{itemize}
             
-            \vspace{0.5cm}
-            \textbf{REBCO (RE-Ba$_2$Cu$_3$O$_{7-\delta}$):}
+            \vspace{0.3cm}
+            \textbf{Key Physical Properties:}
             \begin{itemize}
-                \item RE = Rare Earth (Y, Gd, etc.)
-                \item $T_c \approx \Kelvin{90}$
-                \item High $\Jc$ in magnetic fields
-                \item Commercial availability
+                \item \textcolor{blue}{Zero electrical resistance} below $T_c$ (no energy loss!)
+                \item \textcolor{red}{Expulsion of magnetic fields} (Meissner effect)
+                \item Critical temperature $T_c > \Kelvin{77}$ (practical cooling)
+                \item Critical current density $\Jc(B,T)$ (engineering limit)
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            \textbf{REBCO (RE-Ba$_2$Cu$_3$O$_{7-\delta}$) Advantages:}
+            \begin{itemize}
+                \item RE = Rare Earth (Y, Gd, Eu, etc.)
+                \item $T_c \approx \Kelvin{90}$ (above liquid nitrogen!)
+                \item High $\Jc$ even in strong magnetic fields
+                \item Commercially available as flexible tape
             \end{itemize}
         \end{column}
         \begin{column}{0.4\textwidth}
@@ -193,24 +226,46 @@
         \begin{column}{0.5\textwidth}
             \centering
             \begin{tikzpicture}[scale=0.6]
-                % Coil cross-section
-                \draw[thick,blue] (-2,1) rectangle (-1.5,1.5);
-                \draw[thick,blue] (1.5,1) rectangle (2,1.5);
-                \draw[thick,blue] (-2,-1.5) rectangle (-1.5,-1);
-                \draw[thick,blue] (1.5,-1.5) rectangle (2,-1);
+                % Coil cross-section - REBCO tape representation
+                \draw[thick,blue,fill=blue!20] (-2,1) rectangle (-1.5,1.5);
+                \draw[thick,blue,fill=blue!20] (1.5,1) rectangle (2,1.5);
+                \draw[thick,blue,fill=blue!20] (-2,-1.5) rectangle (-1.5,-1);
+                \draw[thick,blue,fill=blue!20] (1.5,-1.5) rectangle (2,-1);
                 
-                % Field lines
-                \draw[red,->] (0,0) -- (0,2);
-                \draw[red,->] (-0.5,0) -- (-0.5,1.8);
-                \draw[red,->] (0.5,0) -- (0.5,1.8);
+                % Enhanced curved field lines with bend right
+                \draw[red,->,thick,bend right=10] (-1.5,1.25) to (1.5,1.25);
+                \draw[red,->,thick,bend right=10] (-1.5,0.75) to (1.5,0.75);
+                \draw[red,->,thick,bend right=10] (-1.5,0.25) to (1.5,0.25);
+                \draw[red,->,thick,bend right=10] (-1.5,-0.25) to (1.5,-0.25);
+                \draw[red,->,thick,bend right=10] (-1.5,-0.75) to (1.5,-0.75);
+                \draw[red,->,thick,bend right=10] (-1.5,-1.25) to (1.5,-1.25);
                 
-                % Labels
-                \node at (0,-2.5) {Helmholtz Configuration};
-                \node at (-1.75,1.8) {HTS Coil};
-                \node at (1.75,1.8) {HTS Coil};
-                \draw[<->] (-1.5,0.5) -- (1.5,0.5);
-                \node at (0,0.2) {$2R$};
+                % Vertical field lines in center
+                \draw[red,->,thick] (0,0) -- (0,1.5);
+                \draw[red,->,thick] (-0.3,0) -- (-0.3,1.3);
+                \draw[red,->,thick] (0.3,0) -- (0.3,1.3);
+                
+                % Enhanced labels with better positioning
+                \node[font=\small] at (0,-2.8) {\textbf{Helmholtz Coil Pair Cross-Section}};
+                \node[font=\small,blue] at (-1.75,2.0) {REBCO Tape};
+                \node[font=\small,blue] at (1.75,2.0) {REBCO Tape};
+                \node[font=\small,red] at (0.8,1.0) {Field Lines};
+                
+                % Dimension annotation
+                \draw[<->,thick] (-1.5,0.5) -- (1.5,0.5);
+                \node[font=\small] at (0,0.2) {$2R$};
+                
+                % Add plasma region indication
+                \draw[dashed,gray,thick] (0,0) circle (0.8);
+                \node[font=\tiny,gray] at (0.6,0.6) {Plasma};
+                \node[font=\tiny,gray] at (0.6,0.4) {Region};
             \end{tikzpicture}
+            
+            \vspace{0.2cm}
+            \begin{center}
+                \footnotesize
+                \textit{Helmholtz coil pair cross-section showing REBCO tape (blue rectangles) and magnetic field lines (red arrows). Field flows uniformly between coils.}
+            \end{center}
         \end{column}
     \end{columns}
 \end{frame}
@@ -602,23 +657,50 @@
 \section{Learning Exercises and Problems}
 
 \begin{frame}{Exercise 1: Critical Current Calculation}
-    \begin{block}{Problem}
+    \begin{block}{Learning Objective}
+        Apply the Kim model to calculate critical current density under realistic operating conditions
+    \end{block}
+    
+    \begin{block}{Problem - Part A (Guided)}
         A REBCO conductor operates at \Kelvin{25} in a \Tesla{3} magnetic field.
         Calculate the critical current density using the Kim model with:
         $\Jc^0 = 300 \times 10^6~\text{A/m}^2$, $T_c = \Kelvin{90}$, $B_0 = \Tesla{5}$, $n = m = 1.5$
     \end{block}
     
-    \vspace{0.5cm}
-    \textbf{Solution approach:}
+    \textbf{Scaffolded Solution:}
     \begin{enumerate}
-        \item Apply Kim model: $\Jc(T,B) = \Jc^0 \left(1-\frac{T}{T_c}\right)^{n} \left(1+\frac{B}{B_0}\right)^{-m}$
-        \item Calculate temperature factor: $\left(1-\frac{25}{90}\right)^{1.5}$
-        \item Calculate field factor: $\left(1+\frac{3}{5}\right)^{-1.5}$
-        \item Multiply: $\Jc = 300 \times 10^6 \times \text{factors}$
+        \item \textbf{Identify the model}: $\Jc(T,B) = \Jc^0 \left(1-\frac{T}{T_c}\right)^{n} \left(1+\frac{B}{B_0}\right)^{-m}$
+        \item \textbf{Temperature factor}: $\left(1-\frac{25}{90}\right)^{1.5} = (0.72)^{1.5} = 0.61$
+        \item \textbf{Field factor}: $\left(1+\frac{3}{5}\right)^{-1.5} = (1.6)^{-1.5} = 0.39$
+        \item \textbf{Result}: $\Jc = 300 \times 10^6 \times 0.61 \times 0.39 = 71.4 \times 10^6~\text{A/m}^2$
     \end{enumerate}
     
-    \vspace{0.3cm}
-    \textbf{Try it yourself!} What current can a 4~mm wide tape carry?
+    \begin{alertblock}{Self-Check Question}
+        For a 4~mm wide, 100~μm thick tape, what total current can it carry? (Answer: $I = \Jc \times A = 28.6$~A)
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Exercise 1 - Part B (Independent Practice)}
+    \begin{block}{Challenge Problem}
+        Now try these variations independently:
+        \begin{enumerate}
+            \item What happens to $\Jc$ if temperature increases to \Kelvin{77}?
+            \item How does $\Jc$ change if magnetic field decreases to \Tesla{1}?
+            \item At what temperature does $\Jc$ drop to 50\% of the \Kelvin{25} value?
+        \end{enumerate}
+    \end{block}
+    
+    \begin{block}{Conceptual Questions}
+        \begin{itemize}
+            \item Why does critical current decrease with increasing temperature?
+            \item Explain physically why magnetic field reduces current capacity
+            \item What are the practical implications for coil design?
+        \end{itemize}
+    \end{block}
+    
+    \begin{block}{Real-World Connection}
+        This calculation is performed thousands of times in actual HTS magnet design. Engineers use these results to select operating points that balance performance with reliability.
+    \end{block}
 \end{frame}
 
 \begin{frame}{Exercise 2: Magnetic Field Design}
@@ -663,7 +745,88 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Conclusion
+% Assessment and Evaluation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Assessment and Knowledge Check}
+
+\begin{frame}{Formative Assessment - Concept Check}
+    \begin{block}{Quick Quiz - True or False?}
+        \begin{enumerate}
+            \item REBCO superconductors can operate at liquid nitrogen temperatures \textcolor{gray}{(77K)}
+            \item Critical current density increases with magnetic field strength
+            \item Toroidal coils provide better field uniformity than solenoids for plasma confinement
+            \item Thermal management is only important during startup of superconducting systems
+            \item The Kim model predicts superconductor performance under various conditions
+        \end{enumerate}
+    \end{block}
+    
+    \pause
+    \begin{alertblock}{Answers}
+        1. \textcolor{green}{TRUE} - This is why REBCO is "high-temperature" \\
+        2. \textcolor{red}{FALSE} - $\Jc$ decreases with B-field \\
+        3. \textcolor{green}{TRUE} - Closed field lines help plasma confinement \\
+        4. \textcolor{red}{FALSE} - Continuous thermal management required \\
+        5. \textcolor{green}{TRUE} - Empirical model for engineering design
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Comprehensive Assessment Rubric}
+    \begin{block}{Evaluation Criteria for Course Project}
+        \small
+        \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Criterion} & \textbf{Exemplary (4)} & \textbf{Proficient (3)} & \textbf{Developing (2)} \\
+        \hline
+        Physics Understanding & Complete mastery of & Good grasp of basic & Partial understanding \\
+        & superconductor theory & principles & of key concepts \\
+        \hline
+        Problem Solving & Innovative approaches & Correct methodology & Basic problem solving \\
+        & to complex challenges & with minor errors & with guidance \\
+        \hline
+        Design Integration & Considers all physics & Addresses most & Limited integration \\
+        & aspects holistically & design constraints & of design factors \\
+        \hline
+        Communication & Clear, professional & Well-organized & Basic presentation \\
+        & technical presentation & with good clarity & of results \\
+        \hline
+        \end{tabular}
+    \end{block}
+    
+    \begin{alertblock}{Capstone Project Options}
+        \begin{itemize}
+            \item Design HTS coil system for specific application
+            \item Comparative analysis of superconductor technologies
+            \item Economic feasibility study for fusion magnet upgrade
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Interactive Learning Opportunities}
+    \begin{block}{Technology-Enhanced Learning}
+        \begin{itemize}
+            \item \textbf{Online Simulations}: Explore parameter effects with interactive models
+            \item \textbf{Virtual Lab}: 3D visualization of magnetic field configurations
+            \item \textbf{Collaborative Platform}: Share designs and get peer feedback
+            \item \textbf{Real-Time Polling}: Test understanding during lectures
+        \end{itemize}
+    \end{block}
+    
+    \begin{block}{Collaborative Learning Activities}
+        \begin{itemize}
+            \item \textbf{Design Teams}: Groups tackle different aspects of complex projects
+            \item \textbf{Peer Review}: Students evaluate and improve each other's work
+            \item \textbf{Research Presentations}: Share findings from literature investigations
+            \item \textbf{Industry Connections}: Guest lectures from practicing engineers
+        \end{itemize}
+    \end{block}
+    
+    \begin{alertblock}{Accessibility Features}
+        Materials available in multiple formats, with visual descriptions for figures and mathematical expression readers for equations
+    \end{alertblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conclusion Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 
