@@ -36,14 +36,15 @@
 	\input{author_config.tex}%
 }{%
 	\providecommand{\authorname}{Independent Researcher}%
-	\providecommand{\authoremail}{contact@example.com}%
+    \providecommand{\authoraffiliation}{Independent Researcher}%
+    \providecommand{\authoremail}{contact@example.com}%
 }
 
 % Title information
 \title[REBCO HTS Coil Optimization]{REBCO HTS Coil Optimization Framework\\for Fusion and Antimatter Applications}
 \subtitle{Educational Companion to Research Paper}
 \author[\authorname]{\authorname}
-\institute[Independent Researcher]{Independent Researcher}
+\institute[\authoraffiliation]{\textit{\authoraffiliation}}
 \date{September 7, 2025}
 
 \begin{document}
@@ -57,9 +58,8 @@
         \small
         Educational companion to:\\
         \textit{``REBCO HTS Coil Optimization for Fusion and Antimatter Applications''}\\
-        \vspace{0.3cm}
-        arXiv category: \texttt{physics.ed-ph}\\
-        Cross-listed: \texttt{cond-mat.supr-con}
+    \vspace{0.3cm}
+    	{Contact:} \href{mailto:\authoremail}{\texttt{\authoremail}}
     \end{center}
 \end{frame}
 
@@ -113,7 +113,7 @@
             \vspace{0.3cm}
             \textbf{Key Physical Properties:}
             \begin{itemize}
-                \item \textcolor{blue}{Zero electrical resistance} below $T_c$ (no energy loss!)
+                          % ...existing code...
                 \item \textcolor{red}{Expulsion of magnetic fields} (Meissner effect)
                 \item Critical temperature $T_c > \Kelvin{77}$ (practical cooling)
                 \item Critical current density $\Jc(B,T)$ (engineering limit)
@@ -755,11 +755,11 @@
     
     \pause
     \begin{alertblock}{Answers}
-        1. \textcolor{green}{TRUE} - This is why REBCO is "high-temperature" \\
-        2. \textcolor{red}{FALSE} - $\Jc$ decreases with B-field \\
-        3. \textcolor{green}{TRUE} - Closed field lines help plasma confinement \\
-        4. \textcolor{red}{FALSE} - Continuous thermal management required \\
-        5. \textcolor{green}{TRUE} - Empirical model for engineering design
+        1. \textcolor{green!50!black}{TRUE} - This is why REBCO is "high-temperature" \\
+        2. \textcolor{red!80!black}{FALSE} - $\Jc$ decreases with B-field \\
+        3. \textcolor{green!50!black}{TRUE} - Closed field lines help plasma confinement \\
+        4. \textcolor{red!80!black}{FALSE} - Continuous thermal management required \\
+        5. \textcolor{green!50!black}{TRUE} - Empirical model for engineering design
     \end{alertblock}
 \end{frame}
 
@@ -847,7 +847,7 @@
     \begin{thebibliography}{10}
         \setbeamertemplate{bibliography item}[text]
         
-        \bibitem{paper} Arcticoder, ``REBCO HTS Coil Optimization for Fusion and Antimatter Applications,'' \textit{arXiv preprint}, 2025.
+    \bibitem{paper} {\authorname}, ``REBCO HTS Coil Optimization for Fusion and Antimatter Applications,'' \textit{Zenodo}, 2025. \url{https://zenodo.org/records/17096724}.
         
         \bibitem{iwasa} Y. Iwasa, \textit{Case Studies in Superconducting Magnets}, 2nd ed. Springer, 2022.
         
@@ -860,9 +860,9 @@
     \end{thebibliography}
     
     \vspace{0.5cm}
-    \textbf{Code and Data:} \url{https://github.com/arcticoder/hts-coils}
+    \textbf{Code and Data:} \url{https://github.com/DawsonInstitute/hts-coils}
     
-    \textbf{Contact:} \texttt{arcticoder@hts-lab.org}
+    \textbf{Contact:} {\texttt{\authoremail}}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -908,7 +908,6 @@
         Educational companion to:\\
         \textit{``REBCO HTS Coil Optimization for Fusion and Antimatter Applications''}\\
         \vspace{0.3cm}
-        arXiv: \texttt{physics.ed-ph}, cross-listed \texttt{cond-mat.supr-con}
     \end{center}
 \end{frame}
 
