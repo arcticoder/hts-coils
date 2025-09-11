@@ -1,8 +1,8 @@
-\beamer@sectionintoc {1}{Introduction to High-Temperature Superconductors}{5}{0}{1}
-\beamer@sectionintoc {2}{Multi-Constraint Optimization Framework}{7}{0}{2}
-\beamer@sectionintoc {3}{Design Results and Performance}{11}{0}{3}
-\beamer@sectionintoc {4}{Applications in Fusion and Antimatter Research}{14}{0}{4}
-\beamer@sectionintoc {5}{Experimental Implementation and Future Work}{17}{0}{5}
-\beamer@sectionintoc {6}{Learning Exercises and Problems}{20}{0}{6}
-\beamer@sectionintoc {7}{Assessment and Knowledge Check}{24}{0}{7}
-\beamer@sectionintoc {8}{Conclusion}{28}{0}{8}
+\beamer@sectionintoc {1}{Introduction to High-Temperature Superconductors}{4}{0}{1}
+\beamer@sectionintoc {2}{Multi-Constraint Optimization Framework}{6}{0}{2}
+\beamer@sectionintoc {3}{Design Results and Performance}{10}{0}{3}
+\beamer@sectionintoc {4}{Applications in Fusion and Antimatter Research}{13}{0}{4}
+\beamer@sectionintoc {5}{Experimental Implementation and Future Work}{16}{0}{5}
+\beamer@sectionintoc {6}{Learning Exercises and Problems}{19}{0}{6}
+\beamer@sectionintoc {7}{Assessment and Knowledge Check}{23}{0}{7}
+\beamer@sectionintoc {8}{Conclusion}{27}{0}{8}

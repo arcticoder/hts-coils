@@ -1,87 +1,87 @@
-\headcommand {\slideentry {0}{0}{1}{2/2}{}{0}}
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}
 \headcommand {\beamer@framepages {2}{2}}
-\headcommand {\slideentry {0}{0}{2}{3/3}{}{0}}
+\headcommand {\slideentry {0}{0}{3}{3/3}{}{0}}
 \headcommand {\beamer@framepages {3}{3}}
-\headcommand {\slideentry {0}{0}{3}{4/4}{}{0}}
+\headcommand {\beamer@sectionpages {1}{3}}
+\headcommand {\beamer@subsectionpages {1}{3}}
+\headcommand {\sectionentry {1}{Introduction to High-Temperature Superconductors}{4}{Introduction to High-Temperature Superconductors}{0}}
+\headcommand {\slideentry {1}{0}{1}{4/4}{}{0}}
 \headcommand {\beamer@framepages {4}{4}}
-\headcommand {\beamer@sectionpages {1}{4}}
-\headcommand {\beamer@subsectionpages {1}{4}}
-\headcommand {\sectionentry {1}{Introduction to High-Temperature Superconductors}{5}{Introduction to High-Temperature Superconductors}{0}}
-\headcommand {\slideentry {1}{0}{1}{5/5}{}{0}}
+\headcommand {\slideentry {1}{0}{2}{5/5}{}{0}}
 \headcommand {\beamer@framepages {5}{5}}
-\headcommand {\slideentry {1}{0}{2}{6/6}{}{0}}
+\headcommand {\beamer@sectionpages {4}{5}}
+\headcommand {\beamer@subsectionpages {4}{5}}
+\headcommand {\sectionentry {2}{Multi-Constraint Optimization Framework}{6}{Multi-Constraint Optimization Framework}{0}}
+\headcommand {\slideentry {2}{0}{1}{6/6}{}{0}}
 \headcommand {\beamer@framepages {6}{6}}
-\headcommand {\beamer@sectionpages {5}{6}}
-\headcommand {\beamer@subsectionpages {5}{6}}
-\headcommand {\sectionentry {2}{Multi-Constraint Optimization Framework}{7}{Multi-Constraint Optimization Framework}{0}}
-\headcommand {\slideentry {2}{0}{1}{7/7}{}{0}}
+\headcommand {\slideentry {2}{0}{2}{7/7}{}{0}}
 \headcommand {\beamer@framepages {7}{7}}
-\headcommand {\slideentry {2}{0}{2}{8/8}{}{0}}
+\headcommand {\slideentry {2}{0}{3}{8/8}{}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\slideentry {2}{0}{3}{9/9}{}{0}}
+\headcommand {\slideentry {2}{0}{4}{9/9}{}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\slideentry {2}{0}{4}{10/10}{}{0}}
+\headcommand {\beamer@sectionpages {6}{9}}
+\headcommand {\beamer@subsectionpages {6}{9}}
+\headcommand {\sectionentry {3}{Design Results and Performance}{10}{Design Results and Performance}{0}}
+\headcommand {\slideentry {3}{0}{1}{10/10}{}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\beamer@sectionpages {7}{10}}
-\headcommand {\beamer@subsectionpages {7}{10}}
-\headcommand {\sectionentry {3}{Design Results and Performance}{11}{Design Results and Performance}{0}}
-\headcommand {\slideentry {3}{0}{1}{11/11}{}{0}}
+\headcommand {\slideentry {3}{0}{2}{11/11}{}{0}}
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\slideentry {3}{0}{2}{12/12}{}{0}}
+\headcommand {\slideentry {3}{0}{3}{12/12}{}{0}}
 \headcommand {\beamer@framepages {12}{12}}
-\headcommand {\slideentry {3}{0}{3}{13/13}{}{0}}
+\headcommand {\beamer@sectionpages {10}{12}}
+\headcommand {\beamer@subsectionpages {10}{12}}
+\headcommand {\sectionentry {4}{Applications in Fusion and Antimatter Research}{13}{Applications in Fusion and Antimatter Research}{0}}
+\headcommand {\slideentry {4}{0}{1}{13/13}{}{0}}
 \headcommand {\beamer@framepages {13}{13}}
-\headcommand {\beamer@sectionpages {11}{13}}
-\headcommand {\beamer@subsectionpages {11}{13}}
-\headcommand {\sectionentry {4}{Applications in Fusion and Antimatter Research}{14}{Applications in Fusion and Antimatter Research}{0}}
-\headcommand {\slideentry {4}{0}{1}{14/14}{}{0}}
+\headcommand {\slideentry {4}{0}{2}{14/14}{}{0}}
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\slideentry {4}{0}{2}{15/15}{}{0}}
+\headcommand {\slideentry {4}{0}{3}{15/15}{}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\slideentry {4}{0}{3}{16/16}{}{0}}
+\headcommand {\beamer@sectionpages {13}{15}}
+\headcommand {\beamer@subsectionpages {13}{15}}
+\headcommand {\sectionentry {5}{Experimental Implementation and Future Work}{16}{Experimental Implementation and Future Work}{0}}
+\headcommand {\slideentry {5}{0}{1}{16/16}{}{0}}
 \headcommand {\beamer@framepages {16}{16}}
-\headcommand {\beamer@sectionpages {14}{16}}
-\headcommand {\beamer@subsectionpages {14}{16}}
-\headcommand {\sectionentry {5}{Experimental Implementation and Future Work}{17}{Experimental Implementation and Future Work}{0}}
-\headcommand {\slideentry {5}{0}{1}{17/17}{}{0}}
+\headcommand {\slideentry {5}{0}{2}{17/17}{}{0}}
 \headcommand {\beamer@framepages {17}{17}}
-\headcommand {\slideentry {5}{0}{2}{18/18}{}{0}}
+\headcommand {\slideentry {5}{0}{3}{18/18}{}{0}}
 \headcommand {\beamer@framepages {18}{18}}
-\headcommand {\slideentry {5}{0}{3}{19/19}{}{0}}
+\headcommand {\beamer@sectionpages {16}{18}}
+\headcommand {\beamer@subsectionpages {16}{18}}
+\headcommand {\sectionentry {6}{Learning Exercises and Problems}{19}{Learning Exercises and Problems}{0}}
+\headcommand {\slideentry {6}{0}{1}{19/19}{}{0}}
 \headcommand {\beamer@framepages {19}{19}}
-\headcommand {\beamer@sectionpages {17}{19}}
-\headcommand {\beamer@subsectionpages {17}{19}}
-\headcommand {\sectionentry {6}{Learning Exercises and Problems}{20}{Learning Exercises and Problems}{0}}
-\headcommand {\slideentry {6}{0}{1}{20/20}{}{0}}
+\headcommand {\slideentry {6}{0}{2}{20/20}{}{0}}
 \headcommand {\beamer@framepages {20}{20}}
-\headcommand {\slideentry {6}{0}{2}{21/21}{}{0}}
+\headcommand {\slideentry {6}{0}{3}{21/21}{}{0}}
 \headcommand {\beamer@framepages {21}{21}}
-\headcommand {\slideentry {6}{0}{3}{22/22}{}{0}}
+\headcommand {\slideentry {6}{0}{4}{22/22}{}{0}}
 \headcommand {\beamer@framepages {22}{22}}
-\headcommand {\slideentry {6}{0}{4}{23/23}{}{0}}
-\headcommand {\beamer@framepages {23}{23}}
-\headcommand {\beamer@sectionpages {20}{23}}
-\headcommand {\beamer@subsectionpages {20}{23}}
-\headcommand {\sectionentry {7}{Assessment and Knowledge Check}{24}{Assessment and Knowledge Check}{0}}
-\headcommand {\slideentry {7}{0}{1}{24/25}{}{0}}
-\headcommand {\beamer@framepages {24}{25}}
-\headcommand {\slideentry {7}{0}{2}{26/26}{}{0}}
+\headcommand {\beamer@sectionpages {19}{22}}
+\headcommand {\beamer@subsectionpages {19}{22}}
+\headcommand {\sectionentry {7}{Assessment and Knowledge Check}{23}{Assessment and Knowledge Check}{0}}
+\headcommand {\slideentry {7}{0}{1}{23/24}{}{0}}
+\headcommand {\beamer@framepages {23}{24}}
+\headcommand {\slideentry {7}{0}{2}{25/25}{}{0}}
+\headcommand {\beamer@framepages {25}{25}}
+\headcommand {\slideentry {7}{0}{3}{26/26}{}{0}}
 \headcommand {\beamer@framepages {26}{26}}
-\headcommand {\slideentry {7}{0}{3}{27/27}{}{0}}
+\headcommand {\beamer@sectionpages {23}{26}}
+\headcommand {\beamer@subsectionpages {23}{26}}
+\headcommand {\sectionentry {8}{Conclusion}{27}{Conclusion}{0}}
+\headcommand {\slideentry {8}{0}{1}{27/27}{}{0}}
 \headcommand {\beamer@framepages {27}{27}}
-\headcommand {\beamer@sectionpages {24}{27}}
-\headcommand {\beamer@subsectionpages {24}{27}}
-\headcommand {\sectionentry {8}{Conclusion}{28}{Conclusion}{0}}
-\headcommand {\slideentry {8}{0}{1}{28/28}{}{0}}
+\headcommand {\slideentry {8}{0}{2}{28/28}{}{0}}
 \headcommand {\beamer@framepages {28}{28}}
-\headcommand {\slideentry {8}{0}{2}{29/29}{}{0}}
+\headcommand {\slideentry {8}{0}{3}{29/29}{}{0}}
 \headcommand {\beamer@framepages {29}{29}}
-\headcommand {\slideentry {8}{0}{3}{30/30}{}{0}}
+\headcommand {\slideentry {8}{0}{4}{30/30}{}{0}}
 \headcommand {\beamer@framepages {30}{30}}
-\headcommand {\slideentry {8}{0}{4}{31/31}{}{0}}
-\headcommand {\beamer@framepages {31}{31}}
-\headcommand {\beamer@partpages {1}{31}}
-\headcommand {\beamer@subsectionpages {28}{31}}
-\headcommand {\beamer@sectionpages {28}{31}}
-\headcommand {\beamer@documentpages {31}}
+\headcommand {\beamer@partpages {1}{30}}
+\headcommand {\beamer@subsectionpages {27}{30}}
+\headcommand {\beamer@sectionpages {27}{30}}
+\headcommand {\beamer@documentpages {30}}
 \headcommand {\gdef \inserttotalframenumber {29}}
