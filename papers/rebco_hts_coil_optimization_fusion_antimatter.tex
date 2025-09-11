@@ -30,16 +30,16 @@
 \date{(Dated: September 2, 2025)}
 
 \begin{document}
-% Left-align footnote text (ensure the 'Electronic address:' footnote is not indented)
+% Ensure the author footnote text begins flush with the left paragraph margin
 \makeatletter
 \renewcommand\@makefntext[1]{%
-  \noindent\makebox[1.8em][l]{\@makefnmark}#1%
+	\noindent\@makefnmark\ \ignorespaces#1%
 }
 \makeatother
 
 \maketitle
 % place email as a symbol footnote at bottom of the first page
-\footnotetext{*Electronic address: \texttt{\authoremail}}
+\footnotetext{*Electronic address:\\ \textbf{\texttt{\authoremail}}}
 % restore normal footnote numbering
 \renewcommand{\thefootnote}{\arabic{footnote}}
 \sloppy
