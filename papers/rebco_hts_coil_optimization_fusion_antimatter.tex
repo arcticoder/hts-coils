@@ -8,6 +8,7 @@
 \usepackage{times} % IEEE typically uses Times font
 \usepackage{microtype} % better line breaking and fewer overfull/underfull boxes
 \usepackage{url}      % allow breaking of URLs and path-like text
+\usepackage{textcomp} % provides textasteriskcentered for baseline asterisk
 \usepackage{pifont}   % for checkmark symbols
 \providecommand{\checkmark}{\ding{51}}
 
@@ -35,11 +36,13 @@
 \renewcommand\@makefntext[1]{%
 	\noindent\@makefnmark\ \ignorespaces#1%
 }
+% Short rule above the footnote area (matches arXiv style separator)
+\renewcommand{\footnoterule}{\vspace{1ex}\noindent\hrule width \columnwidth\vspace{1ex}}
 \makeatother
 
 \maketitle
-% place email as a symbol footnote at bottom of the first page
-\footnotetext{*Electronic address:\\ \textbf{\texttt{\authoremail}}}
+% place email as a symbol footnote at bottom of the first page (rule placed above via \footnoterule)
+\footnotetext{\noindent\textasteriskcentered\ Electronic address: \textbf{\texttt{\authoremail}}}
 % restore normal footnote numbering
 \renewcommand{\thefootnote}{\arabic{footnote}}
 \sloppy
